@@ -7,6 +7,9 @@ import TierSelector from "../../components/ui/TierSelector";
 import ProfileRow from "../../components/ui/ProfileRow";
 import ProfileGroup from "../../components/ui/ProfileGroup";
 import HistoryList from "../../components/ui/HistoryList";
+import BayStatusCard from "../../components/ui/BayStatusCard";
+import TierDetailCard from "../../components/ui/TierDetailCard";
+import BottomSheet from "@/app/components/ui/BottomSheet";
 import { FaMapMarkerAlt, FaTint } from "react-icons/fa";
 
 const fakeWashes = [
@@ -24,8 +27,18 @@ export default function Test() {
         <ProfileRow label="Seneste vaskehistorik" value="Se dine seneste vaske" labelColor="brand" href="/pages/profile/history" />
         <ProfileRow label="Mine oplysninger" value="Opdater dine oplysninger" labelColor="brand" href="/pages/profile/edit" />
       </ProfileGroup>
+      
+      <BottomSheet>
+  <p className="text-white">Test indhold</p>
+</BottomSheet>
 
+<BayStatusCard image="/png/vaskehal-ledig.png" alt="Vaskehal 2, ledig" />
+<BayStatusCard image="/png/vaskehal-optaget.png" alt="Vaskehal 2, optaget" />
       <HistoryList washes={fakeWashes} />
+
+      <ProfileGroup>
+        <ProfileRow label="Nummerplade" value="AB 12 345" showChevron={false} />
+      </ProfileGroup>
 
       <AppHeader
         title="Start vask"
@@ -51,6 +64,30 @@ export default function Test() {
       <TierCard name="Premium" subtitle="Enkeltvask" price="79 kr." icon="/png/car-icon-premium.png" />
       <TierCard name="Brilliant" subtitle="Enkeltvask" price="129 kr." icon="/png/car-icon-brilliant.png" /> */}
       {/* <TierSelector /> */}
+      <TierDetailCard
+        name="Guld"
+        subtitle="God og effektiv"
+        price="59"
+        icon="/png/car-icon-guld.png"
+        description="Vores gode og effektive Guld vaskeprogram giver din bil en kærlig hånd med følgende proces:"
+        rounds={1}
+      />
+      <TierDetailCard
+        name="Guld"
+        subtitle="God og effektiv"
+        price="59"
+        icon="/png/car-icon-guld.png"
+        description="Vores gode og effektive Guld vaskeprogram giver din bil en kærlig hånd med følgende proces:"
+        rounds={2}
+      />
+      <TierDetailCard
+        name="Guld"
+        subtitle="God og effektiv"
+        price="59"
+        icon="/png/car-icon-guld.png"
+        description="Vores gode og effektive Guld vaskeprogram giver din bil en kærlig hånd med følgende proces:"
+        rounds={3}
+      />
 
       <TierSelector showFootnote />
       <TierSelector
