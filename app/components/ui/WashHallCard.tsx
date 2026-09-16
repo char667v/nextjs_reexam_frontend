@@ -33,7 +33,7 @@ export default function WashHallCard({
         </div>
 
         <div>
-          <h2 className="text-h5 text-foreground underline">{name}</h2>
+          <h2 className="text-h5 text-foreground">{name}</h2>
           <p className="text-body-sm text-foreground mt-1 whitespace-pre-line">{address}</p>
 
           <div className="flex items-center gap-4 mt-2">

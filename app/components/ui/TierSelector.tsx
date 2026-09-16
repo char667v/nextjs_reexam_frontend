@@ -19,10 +19,16 @@ type TierSelectorProps = {
     text: string;
   };
   showFootnote?: boolean; // defaults to true — pass showFootnote={false} to hide it
+  onSelect?: (tier: string) => void;
 };
 
-export default function TierSelector({ caption, showFootnote = true }: TierSelectorProps) {
+export default function TierSelector({ caption, showFootnote = true, onSelect }: TierSelectorProps) {
   const [selected, setSelected] = useState("Guld");
+
+  function handleSelect(tier: string) {
+    setSelected(tier);
+    onSelect?.(tier);
+  }
 
   return (
     <div>
@@ -39,7 +45,7 @@ export default function TierSelector({ caption, showFootnote = true }: TierSelec
             key={tier.name}
             {...tier}
             selected={selected === tier.name}
-            onClick={() => setSelected(tier.name)}
+            onClick={() => handleSelect(tier.name)}
           />
         ))}
       </div>

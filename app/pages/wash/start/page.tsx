@@ -19,7 +19,7 @@ export default function WashStart() {
         ]}
       />
 
-      <div className="my-6">
+      <div className="my-6 flex justify-center">
         <BayStatusCard image="/png/vaskehal-ledig.png" alt="Vaskehal 2, ledig" />
       </div>
 
