@@ -8,7 +8,6 @@ type BayStatusCardProps = {
 export default function BayStatusCard({ image, alt }: BayStatusCardProps) {
   return (
     <div className="rounded-2xl overflow-hidden w-fit">
-      <Image src={image} alt={alt} width={320} height={280} />
-    </div>
+<Image src={image} alt={alt} width={320} height={280} priority style={{ width: "auto", height: "auto" }} />    </div>
   );
 }

@@ -46,7 +46,7 @@ export default function PillButton({
     <button
       onClick={handleClick}
       disabled={disabled}
-      className={`w-full py-3.5 rounded-full text-body-md font-bold disabled:opacity-50 ${style}`}
+      className={`w-full py-3.5 text-body-md font-bold disabled:opacity-50 ${style}`}
     >
       {children}
     </button>

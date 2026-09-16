@@ -22,7 +22,7 @@ export default function AppHeader({
   const router = useRouter();
 
   return (
-    <div className="relative pt-2 pb-4">
+    <div className="relative pt-2 pb-16">
       {showClose && (
         <button
           onClick={onClose ?? (() => router.back())}
@@ -34,7 +34,7 @@ export default function AppHeader({
 
       <h1 className="text-h1 text-foreground mb-1 pr-8">{title}</h1>
 
-      {subtitle && <p className="text-body-sm text-[#E24B4A]">{subtitle}</p>}
+      {subtitle && <p className="text-body-sm text-white">{subtitle}</p>}
 
       {details?.map((line, i) => (
         <div key={i} className="flex items-center gap-2 text-body-sm text-[#8a8a86] mt-1">
