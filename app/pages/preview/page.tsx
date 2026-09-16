@@ -4,13 +4,28 @@ import PillButton from "@/app/components/ui/PillButton";
 import PromoBanner from "../../components/ui/PromoBanner";
 import TierCard from "@/app/components/ui/TierCard";
 import TierSelector from "../../components/ui/TierSelector";
+import ProfileRow from "../../components/ui/ProfileRow";
+import ProfileGroup from "../../components/ui/ProfileGroup";
+import HistoryList from "../../components/ui/HistoryList";
 import { FaMapMarkerAlt, FaTint } from "react-icons/fa";
 
+const fakeWashes = [
+  { location: "Nørrebro", date: "I går, kl 18:23", tier: "Brilliant" },
+  { location: "Søborg", date: "25 August 2026, kl 18:23", tier: "Premium" },
+  { location: "Roskilde", date: "05 August 2026, kl 12:23", tier: "Guld" },
+];
 
 export default function Test() {
   return (
     <div className="px-6 pt-6 flex flex-col gap-10">
       <AppHeader title="Login" subtitle="Et par oplysninger, så er du klar til vask." />
+      <ProfileGroup>
+        <ProfileRow label="Mit medlemskab" value="Guld enkeltvask" labelColor="brand" href="/pages/profile/membership" />
+        <ProfileRow label="Seneste vaskehistorik" value="Se dine seneste vaske" labelColor="brand" href="/pages/profile/history" />
+        <ProfileRow label="Mine oplysninger" value="Opdater dine oplysninger" labelColor="brand" href="/pages/profile/edit" />
+      </ProfileGroup>
+
+      <HistoryList washes={fakeWashes} />
 
       <AppHeader
         title="Start vask"
@@ -32,11 +47,18 @@ export default function Test() {
       <PillButton variant="primary">Start vask</PillButton>
       <PillButton variant="outline">Start vask</PillButton>
       <PillButton variant="danger">NØDSTOP</PillButton>
-
-      <TierCard name="Guld" subtitle="Enkeltvask" price="49 kr." icon="/png/car-icon-guld.png" selected />
+      {/* <TierCard name="Guld" subtitle="Enkeltvask" price="49 kr." icon="/png/car-icon-guld.png" selected />
       <TierCard name="Premium" subtitle="Enkeltvask" price="79 kr." icon="/png/car-icon-premium.png" />
-      <TierCard name="Brilliant" subtitle="Enkeltvask" price="129 kr." icon="/png/car-icon-brilliant.png" />
-      <TierSelector />
+      <TierCard name="Brilliant" subtitle="Enkeltvask" price="129 kr." icon="/png/car-icon-brilliant.png" /> */}
+      {/* <TierSelector /> */}
+
+      <TierSelector showFootnote />
+      <TierSelector
+        caption={{
+          title: "Din nuværende medlemskab er Guld enkeltvask",
+          text: "Vælg mellem Premium eller Brilliant for at ændre dit medlemskab for en endnu bedre oplevelse med WashWorld",
+        }}
+      />
       <BottomNav />
     </div>
   );
