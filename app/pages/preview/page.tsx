@@ -14,6 +14,8 @@ import TierDetailCard from "../../components/ui/TierDetailCard";
 import BottomSheet from "@/app/components/ui/BottomSheet";
 import { FaMapMarkerAlt, FaTint } from "react-icons/fa";
 
+import SwitchMembershipWarning from "../../components/ui/SwitchMembershipWarning";
+
 const fakeWashes = [
   { location: "Nørrebro", date: "I går, kl 18:23", tier: "Brilliant" },
   { location: "Søborg", date: "25 August 2026, kl 18:23", tier: "Premium" },
@@ -22,10 +24,17 @@ const fakeWashes = [
 
 export default function Test() {
   const [sheetOpen, setSheetOpen] = useState(true);
+  const [showWarning, setShowWarning] = useState(true);
 
   return (
     <div className="px-6 pt-6 flex flex-col gap-10">
       <AppHeader title="Login" subtitle="Et par oplysninger, så er du klar til vask." />
+
+      <button onClick={() => setShowWarning(true)} className="text-white">
+        Show warning
+      </button>
+
+      {showWarning && <SwitchMembershipWarning currentTier="Guld" newTier="Premium" onConfirm={() => setShowWarning(false)} onCancel={() => setShowWarning(false)} />}
 
       <ProfileGroup>
         <ProfileRow label="Mit medlemskab" value="Guld enkeltvask" labelColor="brand" href="/pages/profile/membership" />
@@ -109,7 +118,6 @@ export default function Test() {
   );
 }
 
-
 // import AppHeader from "../../components/layout/AppHeader";
 // import BottomNav from "../../components/layout/BottomNav";
 // import PillButton from "@/app/components/ui/PillButton";
@@ -139,7 +147,7 @@ export default function Test() {
 //         <ProfileRow label="Seneste vaskehistorik" value="Se dine seneste vaske" labelColor="brand" href="/pages/profile/history" />
 //         <ProfileRow label="Mine oplysninger" value="Opdater dine oplysninger" labelColor="brand" href="/pages/profile/edit" />
 //       </ProfileGroup>
-      
+
 //       <BottomSheet>
 //   <p className="text-white">Test indhold</p>
 // </BottomSheet>

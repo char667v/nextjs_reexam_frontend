@@ -16,8 +16,8 @@ export default function SelectSingleWashPage() {
 
   return (
     <div className="pt-20 pr-10 pl-14 flex flex-col gap-4">
-      <AppHeader title="Vælg enkeltvask" />
-
+      <AppHeader onClose={() => router.push("/pages/dashboard")} />
+        
       <PromoBanner
         src="/jpg/enkeltvask-banner.jpg"
         alt="Enkeltvask - betal kun for den vask, du bruger"

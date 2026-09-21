@@ -37,7 +37,7 @@ export default function TierCard({
           <span className="font-bold">{name}</span> <span className="text-[#555]">- {subtitle}</span>
         </p>
         <div className="flex items-center justify-end gap-1 mt-1">
-          <span className="text-h5 font-bold text-black">
+          <span className="text-h2 font-bold text-black">
             {price} <span className="text-body-sm font-normal">kr./vask</span>
           </span>
           {!selected && showChevron && <span className="text-black">›</span>}

@@ -50,11 +50,7 @@ export default function Onboarding() {
 
   return (
     <div className="pt-20 pr-10 pl-14 flex flex-col gap-4">
-      <AppHeader
-        title="Opret bruger"
-        subtitle="Et par oplysninger, så er du klar til vask."
-        onClose={() => router.push("/")}
-      />
+      <AppHeader title="Opret bruger" subtitle="Et par oplysninger, så er du klar til vask." onClose={() => router.push("/")} />
 
       <div className="flex flex-col gap-6">
         <div>
@@ -86,9 +82,7 @@ export default function Onboarding() {
           </ProfileGroup>
         </div>
 
-        <p className="text-body-xs text-[#8a8a86]">
-          Ved at fortsætte accepterer du Wash Worlds betingelser og privatlivspolitik.
-        </p>
+        <p className="text-body-xs text-[#8a8a86]">Ved at fortsætte accepterer du Wash Worlds betingelser og privatlivspolitik.</p>
 
         {error && <p className="text-body-sm text-[#E24B4A]">{error}</p>}
 

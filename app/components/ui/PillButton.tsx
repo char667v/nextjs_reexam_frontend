@@ -4,7 +4,7 @@ import { ReactNode, useState } from "react";
 
 const variants = {
   primary: {
-    base: "bg-brand text-white",
+    base: "bg-brand text-white text-body-xl",
     pressed: "bg-[var(--color-primary)] text-white",
   },
   outline: {
@@ -12,12 +12,12 @@ const variants = {
     pressed: "bg-brand text-white",
   },
   danger: {
-    base: "bg-[#E24B4A] text-white",
+    base: "bg-[#dd0d0d] text-white",
     pressed: "bg-[#A5322F] text-white",
   },
   "danger-outline": {
-    base: "bg-transparent border border-[#E24B4A] text-[#E24B4A]",
-    pressed: "bg-[#E24B4A] text-white",
+    base: "bg-transparent border border-[#dd0d0d] text-[#dd0d0d]",
+    pressed: "bg-[#dd0d0d] text-white",
   },
 };
 

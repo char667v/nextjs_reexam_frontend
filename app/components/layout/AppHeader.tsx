@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { ReactNode } from "react";
 
 type AppHeaderProps = {
-  title: string;
+  title?: string;
   subtitle?: string;
   details?: { icon: ReactNode; text: string }[];
   showClose?: boolean;
@@ -32,7 +32,7 @@ export default function AppHeader({
         </button>
       )}
 
-      <h1 className="text-h1 text-foreground mb-1 pr-8">{title}</h1>
+      {title && <h1 className="text-h1 text-foreground mb-1 pr-8">{title}</h1>}
 
       {subtitle && <p className="text-body-sm text-white">{subtitle}</p>}
 

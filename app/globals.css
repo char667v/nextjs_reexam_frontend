@@ -58,6 +58,11 @@
   --color-active-bg-transparent: #d524bd47; /*remember to usse the right opacity/color*/ 
   --border-radius: 12px; /*border radius for buttons and inputs*/
 
+  --color-muted: #8a8a86;
+  --color-card-bg: #111111;
+  --color-divider: #2a2a2a;
+  --color-danger: #dd0d0d;
+
   /* Mobile typography scale */
   --display-h1-size: 28px;
   --display-h1-line: 34px;
