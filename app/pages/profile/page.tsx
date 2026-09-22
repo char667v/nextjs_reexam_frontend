@@ -1,12 +1,19 @@
 "use client";
+import { useEffect, useState } from "react";
 import AppHeader from "../../components/layout/AppHeader";
 import ProfileGroup from "../../components/ui/ProfileGroup";
 import ProfileRow from "../../components/ui/ProfileRow";
 import PillButton from "../../components/ui/PillButton";
+import { getMembershipTier } from "../../lib/membership";
 import { useRouter } from "next/navigation";
 
 export default function Profile() {
   const router = useRouter();
+  const [tier, setTier] = useState("Guld");
+
+  useEffect(() => {
+    setTier(getMembershipTier() ?? "Guld");
+  }, []);
 
   function handleLogout() {
     localStorage.removeItem("access_token");

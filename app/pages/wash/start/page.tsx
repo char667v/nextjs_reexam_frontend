@@ -33,7 +33,7 @@ export default function WashStart() {
 
       <div className="flex flex-col gap-3">
         <PillButton onClick={() => router.push("/pages/wash/progress")}>Ja, start vask</PillButton>
-        <PillButton variant="outline" onClick={() => router.push("/pages/dashboard")}>Fortryd</PillButton>
+        <PillButton variant="danger-outline" onClick={() => router.push("/pages/dashboard")}>Fortryd</PillButton>
       </div>
     </div>
   );

@@ -18,35 +18,48 @@ export default function Onboarding() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  async function handleSignup() {
-    setError("");
-    setLoading(true);
-    try {
-      const res = await fetch("http://localhost:80/api-signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          user_name: name,
-          user_email: email,
-          user_password: password,
-          license_plate: plate,
-          card_number: cardNumber,
-          card_expiry: expiry,
-          card_cvc: cvc,
-        }),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        setError(data.message || "Kunne ikke oprette bruger");
-      } else {
-        router.push("/pages/login");
-      }
-    } catch {
-      setError("System under maintenance");
-    } finally {
-      setLoading(false);
-    }
-  }
+  // out commented the lines 22-50 to simulat e a successful signup, since the backend is not ready yet.
+  // async function handleSignup() {
+  //   setError("");
+  //   setLoading(true);
+  //   try {
+  //     const res = await fetch("http://localhost:80/api-signup", {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify({
+  //         user_name: name,
+  //         user_email: email,
+  //         user_password: password,
+  //         license_plate: plate,
+  //         card_number: cardNumber,
+  //         card_expiry: expiry,
+  //         card_cvc: cvc,
+  //       }),
+  //     });
+  //     const data = await res.json();
+  //     if (!res.ok) {
+  //       setError(data.message || "Kunne ikke oprette bruger");
+  //     } else {
+  //       router.push("/pages/login");
+  //     }
+  //   } catch {
+  //     setError("System under maintenance");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // }
+async function handleSignup() {
+  setError("");
+  setLoading(true);
+
+  // TEMPORARY: no backend yet, simulating a successful signup.
+  setTimeout(() => {
+    setLoading(false);
+    // router.push("/pages/wash/select-single-wash?context=onboarding");
+    router.push("/pages/wash/select-single-wash");
+  }, 500);
+}
+
 
   return (
     <div className="pt-20 pr-10 pl-14 flex flex-col gap-4">

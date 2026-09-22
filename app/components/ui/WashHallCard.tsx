@@ -1,9 +1,10 @@
 import Image from "next/image";
+import { ReactNode } from "react";
 import PillButton from "./PillButton";
 
-type Amenity = {
-  icon: string;
+type Features = {
   label: string;
+  icon: ReactNode;
 };
 
 type WashHallCardProps = {
@@ -12,8 +13,8 @@ type WashHallCardProps = {
   image: string;
   open: boolean;
   waitTime: string;
-  amenities: Amenity[];
-  onStart: () => void;
+  feature: Features[]; // 
+  onStart: () => void; // always a function, but can be a no-op if the card is disabled (e.g. if the hall is closed)
 };
 
 export default function WashHallCard({
@@ -22,13 +23,13 @@ export default function WashHallCard({
   image,
   open,
   waitTime,
-  amenities,
+  feature,
   onStart,
 }: WashHallCardProps) {
   return (
     <div>
-      <div className="flex gap-4">
-        <div className="w-32 h-24 rounded-xl overflow-hidden shrink-0">
+      <div className="flex gap-8">
+        <div className="w-32 h-24 rounded-md overflow-hidden shrink-0 ml-6">
           <Image src={image} alt={name} width={128} height={96} className="w-full h-full object-cover" />
         </div>
 
@@ -45,10 +46,10 @@ export default function WashHallCard({
         </div>
       </div>
 
-      <div className="border-t border-white/20 my-4" />
+      <div className="border-t border-white/60 my-4" />
 
-      <div className="grid grid-cols-2 gap-3">
-        {amenities.map((a) => (
+      <div className="grid grid-cols-2 gap-3 ml-10">
+        {feature.map((a) => (
           <span key={a.label} className="flex items-center gap-2 text-body-sm text-foreground">
             {a.icon} {a.label}
           </span>

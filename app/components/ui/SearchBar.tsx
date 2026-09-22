@@ -6,7 +6,7 @@ type SearchBarProps = {
 
 export default function SearchBar({ value, onChange, placeholder = "Søg vaskehal" }: SearchBarProps) {
   return (
-    <div className="flex items-center gap-3 bg-black border border-[#2a2a2a] rounded-full px-4 py-3">
+    <div className="flex items-center gap-3 bg-black border border-[#2a2a2a] rounded-full px-6 py-3">
       <span className="text-foreground">🔍</span>
       <input
         type="text"

@@ -37,16 +37,16 @@ export default function BottomNav() {
     <div className="fixed bottom-6 left-1/2 -translate-x-1/2 flex gap-4">
       <Link
         href="/pages/profile"
-        className={`w-14 h-14 rounded-2xl bg-amber-600 flex items-center justify-center ${
-          pathname === "/pages/profile" ? "text-brand" : "text-[var(--color-primary)]"
+        className={`w-14 h-14 rounded-2xl bg-background flex items-center justify-center ${
+          pathname === "/pages/profile" ? "text-brand" : "text-primary"
         }`}
       >
         <ProfileIcon />
       </Link>
       <Link
         href="/pages/dashboard"
-        className={`w-14 h-14 rounded-2xl bg-amber-600 flex items-center justify-center ${
-          pathname === "/pages/dashboard" ? "text-brand" : "text-[var(--color-primary)]"
+        className={`w-14 h-14 rounded-2xl bg-background flex items-center justify-center ${
+          pathname === "/pages/dashboard" ? "text-brand" : "text-primary"
         }`}
       >
         <HomeIcon />

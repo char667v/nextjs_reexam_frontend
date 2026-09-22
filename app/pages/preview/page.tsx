@@ -13,6 +13,14 @@ import BayStatusCard from "../../components/ui/BayStatusCard";
 import TierDetailCard from "../../components/ui/TierDetailCard";
 import BottomSheet from "@/app/components/ui/BottomSheet";
 import { FaMapMarkerAlt, FaTint } from "react-icons/fa";
+import { GiVacuumCleaner } from "react-icons/gi";
+import { BiSolidCarWash } from "react-icons/bi";
+import { FaHandsWash } from "react-icons/fa";
+import { IoTimeOutline } from "react-icons/io5";
+
+
+
+import WashHallCard from "../../components/ui/WashHallCard";
 
 import SwitchMembershipWarning from "../../components/ui/SwitchMembershipWarning";
 
@@ -30,11 +38,11 @@ export default function Test() {
     <div className="px-6 pt-6 flex flex-col gap-10">
       <AppHeader title="Login" subtitle="Et par oplysninger, så er du klar til vask." />
 
-      <button onClick={() => setShowWarning(true)} className="text-white">
+      {/* <button onClick={() => setShowWarning(true)} className="text-white">
         Show warning
       </button>
 
-      {showWarning && <SwitchMembershipWarning currentTier="Guld" newTier="Premium" onConfirm={() => setShowWarning(false)} onCancel={() => setShowWarning(false)} />}
+      {showWarning && <SwitchMembershipWarning currentTier="Guld" newTier="Premium" onConfirm={() => setShowWarning(false)} onCancel={() => setShowWarning(false)} />} */}
 
       <ProfileGroup>
         <ProfileRow label="Mit medlemskab" value="Guld enkeltvask" labelColor="brand" href="/pages/profile/membership" />
@@ -47,6 +55,27 @@ export default function Test() {
           <p className="text-white">Test indhold kjdfbvlahkbfvkb</p> /*you can see this but your not suppose to*/
         </BottomSheet>
       )}
+
+      <div className="px-6 pt-6">
+      {sheetOpen && (
+        <BottomSheet onClose={() => setSheetOpen(false)}>
+          <WashHallCard
+            name="Wash World Nørrebro"
+            address={"Rebslagervej 19\n2400 København NV"}
+            image="/jpg/wash-world-soborg.jpg"
+            open={true}
+            waitTime="5 min ventetid"
+            feature={[
+              { icon: <IoTimeOutline />, label: "Åben 7/22" },
+              { icon: <BiSolidCarWash />, label: "3 Vaskehaller" },
+              { icon: <GiVacuumCleaner />, label: "Støvsugere" },
+              { icon: <FaHandsWash />, label: "Vask selv" },
+            ]}
+            onStart={() => console.log("start vask clicked")}
+          />
+        </BottomSheet>
+      )}
+    </div>
 
       <BayStatusCard image="/png/vaskehal-ledig.png" alt="Vaskebås 2, ledig" />
       <BayStatusCard image="/png/vaskehal-optaget.png" alt="Vaskebås 2, optaget" />

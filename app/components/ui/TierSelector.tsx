@@ -14,6 +14,7 @@ const membershipDisclaimer = {
 };
 
 type TierSelectorProps = {
+  initialSelected?: string;
   caption?: {
     title: string;
     text: string;
@@ -22,8 +23,8 @@ type TierSelectorProps = {
   onSelect?: (tier: string) => void;
 };
 
-export default function TierSelector({ caption, showFootnote = true, onSelect }: TierSelectorProps) {
-  const [selected, setSelected] = useState("Guld");
+export default function TierSelector({ initialSelected = "", caption, showFootnote = true, onSelect }: TierSelectorProps) {
+  const [selected, setSelected] = useState(initialSelected);
 
   function handleSelect(tier: string) {
     setSelected(tier);
@@ -41,12 +42,7 @@ export default function TierSelector({ caption, showFootnote = true, onSelect }:
 
       <div className="flex flex-col gap-3">
         {tiers.map((tier) => (
-          <TierCard
-            key={tier.name}
-            {...tier}
-            selected={selected === tier.name}
-            onClick={() => handleSelect(tier.name)}
-          />
+          <TierCard key={tier.name} {...tier} selected={selected === tier.name} onClick={() => handleSelect(tier.name)} />
         ))}
       </div>
 
