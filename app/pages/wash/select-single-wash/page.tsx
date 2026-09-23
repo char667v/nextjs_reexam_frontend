@@ -28,15 +28,9 @@ export default function SelectSingleWashPage() {
 
   return (
     <div className="pt-20 pr-14 pl-14 flex flex-col gap-4">
-      <AppHeader title="Vælg dit medlemskab" />
-      <PromoBanner
-        src="/jpg/enkeltvask-banner.jpg"
-        alt="Enkeltvask - betal kun for den vask, du bruger"
-        caption={{
-          title: "",
-          text: "Du kan vælge mellem vores tre grundige vaskeprogrammer: Guld, Premium og Brilliant og",
-        }}
-      />
+      <AppHeader title="Vælg medlemskab" />
+
+      <p className="text-body-md text-foreground">Du kan vælge mellem vores tre grundige vaskeprogrammer: Guld, Premium og Brilliant. Læs mere ved at klikke på en af dem.</p>
 
       <div className="mt-6">{loaded && <TierSelector initialSelected={selectedTier} onSelect={setSelectedTier} />}</div>
 

@@ -8,7 +8,7 @@ export default function SignedUp() {
 
   return (
     <div className="h-screen flex flex-col items-center justify-center px-6 text-center gap-4 pr-14 pl-14">
-      <LuUserRoundCheck className="mb-4 w-16 h-16 text-brand" />
+      <LuUserRoundCheck className="mb-12 w-32 h-32 text-brand" />
       <h1 className="text-h2 text-brand">Du er nu oprettet!</h1>
 
       <p className="text-body-md text-foreground">Din konto er klar, og du kan nu finde din nærmeste Wash World.</p>
