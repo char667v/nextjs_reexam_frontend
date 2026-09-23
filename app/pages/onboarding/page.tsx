@@ -62,7 +62,7 @@ async function handleSignup() {
 
 
   return (
-    <div className="pt-20 pr-10 pl-14 flex flex-col gap-4">
+    <div className="pt-20 pr-14 pl-14 flex flex-col gap-4">
       <AppHeader title="Opret bruger" subtitle="Et par oplysninger, så er du klar til vask." onClose={() => router.push("/")} />
 
       <div className="flex flex-col gap-6">

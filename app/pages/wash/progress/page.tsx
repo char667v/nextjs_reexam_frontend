@@ -26,7 +26,7 @@ export default function WashProgress() {
   const formatted = `${minutes}:${seconds.toString().padStart(2, "0")}`;
 
   return (
-    <div className="pt-20 pr-10 pl-14 flex flex-col gap-4">
+    <div className="pt-20 pr-14 pl-14 flex flex-col gap-4">
       <AppHeader
         title="Din vask er igang"
         showClose={false}

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import AppHeader from "@/app/components/layout/AppHeader";
 import TierSelector from "@/app/components/ui/TierSelector";
+import PromoBanner from "@/app/components/ui/PromoBanner";
 import PillButton from "@/app/components/ui/PillButton";
 import { getMembershipTier, setMembershipTier } from "@/app/lib/membership";
 import { useRouter } from "next/navigation";
@@ -26,12 +27,20 @@ export default function SelectSingleWashPage() {
   }
 
   return (
-    <div>
+    <div className="pt-20 pr-14 pl-14 flex flex-col gap-4">
       <AppHeader title="Vælg dit medlemskab" />
+      <PromoBanner
+        src="/jpg/enkeltvask-banner.jpg"
+        alt="Enkeltvask - betal kun for den vask, du bruger"
+        caption={{
+          title: "",
+          text: "Du kan vælge mellem vores tre grundige vaskeprogrammer: Guld, Premium og Brilliant og",
+        }}
+      />
 
       <div className="mt-6">{loaded && <TierSelector initialSelected={selectedTier} onSelect={setSelectedTier} />}</div>
 
-      <div className="flex gap-4 mt-3 justify-center">
+      {/* <div className="flex gap-4 mt-3 justify-center">
         {tierSlugs.map((slug) => (
           <Link key={slug} href={`/pages/wash/select-single-wash/${slug}`} className="text-body-xs text-muted underline">
             Læs mere om {slug}
@@ -43,7 +52,7 @@ export default function SelectSingleWashPage() {
         <PillButton onClick={handleContinue} disabled={!selectedTier}>
           Gem og fortsæt
         </PillButton>
-      </div>
+      </div> */}
     </div>
   );
 }
@@ -65,7 +74,7 @@ export default function SelectSingleWashPage() {
 //   }
 
 //   return (
-//     <div className="pt-20 pr-10 pl-14 flex flex-col gap-4">
+//     <div className="pt-20 pr-14 pl-14 flex flex-col gap-4">
 //       <AppHeader title="Vælg enkeltvask" />
 
 //       <PromoBanner

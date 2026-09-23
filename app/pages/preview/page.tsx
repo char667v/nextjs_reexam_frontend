@@ -10,7 +10,7 @@ import ProfileRow from "../../components/ui/ProfileRow";
 import ProfileGroup from "../../components/ui/ProfileGroup";
 import HistoryList from "../../components/ui/HistoryList";
 import BayStatusCard from "../../components/ui/BayStatusCard";
-import TierDetailCard from "../../components/ui/TierDetailCard";
+// import TierDetailCard from "../../components/ui/TierDetailCard";
 import BottomSheet from "@/app/components/ui/BottomSheet";
 import { FaMapMarkerAlt, FaTint } from "react-icons/fa";
 import { GiVacuumCleaner } from "react-icons/gi";
@@ -109,7 +109,7 @@ export default function Test() {
       <PillButton variant="outline">Start vask</PillButton>
       <PillButton variant="danger">NØDSTOP</PillButton>
 
-      <TierDetailCard
+      {/* <TierDetailCard
         name="Guld"
         subtitle="God og effektiv"
         price="59"
@@ -132,7 +132,7 @@ export default function Test() {
         icon="/png/car-icon-brilliant.png"
         description="Vores bedste Brilliant vaskeprogram giver vi din bil ren luksus med følgende proces:"
         rounds={3}
-      />
+      /> */}
 
       <TierSelector showFootnote />
       <TierSelector

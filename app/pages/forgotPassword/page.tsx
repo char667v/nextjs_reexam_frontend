@@ -45,7 +45,7 @@ export default function ForgotPassword() {
   }
 
   return (
-    <div className="pt-20 pr-10 pl-14 flex flex-col gap-4">
+    <div className="pt-20 pr-14 pl-14 flex flex-col gap-4">
       <AppHeader
         title="Opret ny adgangskode"
         subtitle="Din nye adgangskode skal være forskellig fra dit tidligere adgangskode"

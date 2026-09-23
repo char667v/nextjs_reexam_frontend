@@ -12,7 +12,7 @@ export default function WashDone() {
   }
 
   return (
-    <div className="pt-20 pr-10 pl-14 flex flex-col gap-4">
+    <div className="pt-20 pr-14 pl-14 flex flex-col gap-4">
       <AppHeader
         title="Din vask er færdig!"
         details={[]}
