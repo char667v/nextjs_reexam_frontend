@@ -22,12 +22,11 @@ export default function AppHeader({
   const router = useRouter();
 
   return (
-    <div className="relative pt-2 pb-16">
+    <div className="relative pt-4">
       {showClose && (
         <button
           onClick={onClose ?? (() => router.back())}
-          className="absolute top-0 right-0 text-brand text-lg"
-        >
+          className="absolute top-0 right-0 text-brand text-lg" >
           <FaTimes />
         </button>
       )}
