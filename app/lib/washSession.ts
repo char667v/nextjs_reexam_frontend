@@ -7,6 +7,7 @@ export type WashSession = {
   locationAddress: string;
   tier?: string;
   price?: string;
+  washId?: string;
 };
 
 const KEY = "wash_session";

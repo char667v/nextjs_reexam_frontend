@@ -7,35 +7,32 @@ import { useRouter } from "next/navigation";
 
 export default function ForgotPassword() {
   const router = useRouter();
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [email, setEmail] = useState("");
   const [error, setError] = useState("");
+  const [sent, setSent] = useState(false);       // has the email been sent?
   const [loading, setLoading] = useState(false);
 
   async function handleForgotPassword() {
     setError("");
 
-    if (newPassword.length < 8) {
-      setError("Adgangskoden skal indeholde mindst 8 karakter.");
-      return;
-    }
-    if (newPassword !== confirmPassword) {
-      setError("Adgangskoderne skal være ens.");
+    if (!email.includes("@")) {                  // frontend validation
+      setError("Indtast en gyldig email.");
       return;
     }
 
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:80/api-forget-password", {
+      const res = await fetch("http://localhost:80/api-forgot-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ new_user_password: newPassword }),
+        body: JSON.stringify({ user_email: email }),
       });
+      // "Hey backend, send a reset link to this email"
       const data = await res.json();
       if (!res.ok) {
-        setError(data.message || "Kunne ikke nulstille adgangskode");
+        setError(data.message || "Noget gik galt");
       } else {
-        router.push("/pages/login");
+        setSent(true);
       }
     } catch {
       setError("System under maintenance");
@@ -45,30 +42,26 @@ export default function ForgotPassword() {
   }
 
   return (
-    <div className="pt-20 pr-14 pl-14 flex flex-col gap-4">
+    <div className="pt-20 pr-14 pb-28 pl-14 flex flex-col gap-4">
       <AppHeader
-        title="Opret ny adgangskode"
-        subtitle="Din nye adgangskode skal være forskellig fra dit tidligere adgangskode"
-        onClose={() => router.push("/")}
+        title="Glemt adgangskode"
+        subtitle="Indtast din email, så sender vi et link."
+        onClose={() => router.push("/pages/login")}
       />
 
-      <div className="flex flex-col gap-2 -mt-12">
-        <FormField label="Adgangskode" value={newPassword} onChange={setNewPassword} type="password" placeholder="********" />
-        <p className="text-left text-body-xs text-[#8a8a86] pb-5">
-          Skal indeholde mindst 8 karakter.
+      {sent ? (
+        <p className="text-body-sm text-foreground">
+          Hvis emailen findes, har vi sendt et link. Tjek din indbakke.
         </p>
-
-        <FormField label="Bekræft adgangskode" value={confirmPassword} onChange={setConfirmPassword} type="password" placeholder="********" />
-        <p className="text-left text-body-xs text-[#8a8a86] pb-48">
-          Begge adgangskoder skal være ens.
-        </p>
-
-        {error && <p className="text-body-sm text-[#E24B4A]">{error}</p>}
-
-        <PillButton onClick={handleForgotPassword} disabled={loading}>
-          {loading ? "Opretter ny adgangskode…" : "Opret ny adgangskode"}
-        </PillButton>
-      </div>
+      ) : (
+        <div className="flex flex-col gap-4">
+          <FormField label="Email" value={email} onChange={setEmail} type="email" placeholder="Din email" />
+          {error && <p className="text-body-sm text-[#E24B4A]">{error}</p>}
+          <PillButton onClick={handleForgotPassword} disabled={loading}>
+            {loading ? "Sender…" : "Send link"}
+          </PillButton>
+        </div>
+      )}
     </div>
   );
 }

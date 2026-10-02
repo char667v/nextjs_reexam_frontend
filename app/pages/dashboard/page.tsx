@@ -22,8 +22,8 @@ type MapLocation = {
 // Hardcoded for now — Wash World's public locations API no longer returns
 // usable data (it redirects to their homepage instead of JSON).
 const locations: MapLocation[] = [
-  { id: "1", name: "Wash World Nørrebro", address: "Rebslagervej 19, 2400 København NV", hallsCount: 3 },
-  { id: "2", name: "Wash World Søborg", address: "Dynamovej 4, 2860 Søborg", hallsCount: 4 },
+  { id: "11111111111111111111111111111111", name: "Wash World Nørrebro", address: "Rebslagervej 19, 2400 København NV", hallsCount: 3 },
+  { id: "22222222222222222222222222222222", name: "Wash World Søborg", address: "Dynamovej 4, 2860 Søborg", hallsCount: 4 },
 ];
 
 export default function Dashboard() {
