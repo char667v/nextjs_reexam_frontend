@@ -51,7 +51,7 @@ export default function Profile() {
   return (
     <div className="pt-20 pr-10 pl-14 flex flex-col gap-4">
       <AppHeader
-        title={isError ? "Kunne ikke hente profil" : (me?.name ?? "Henter…")}
+        title={isError ? "Kunne ikke hente profil" : (me?.user_name ?? "Henter…")}
         subtitle={me?.license_plate ?? ""}
         onClose={() => router.push("/pages/dashboard")}
       />

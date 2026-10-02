@@ -27,7 +27,7 @@ export default function Login() {
         setError(data.message || "Login failed");
       } else {
         if (data.access_token) localStorage.setItem("access_token", data.access_token);
-        if (data.user) localStorage.setItem("authUser", JSON.stringify(data.user));
+        // if (data.user) localStorage.setItem("authUser", JSON.stringify(data.user));
         router.push("/pages/dashboard");
       }
     } catch {

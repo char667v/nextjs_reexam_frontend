@@ -2,9 +2,9 @@ import { useQuery } from "@tanstack/react-query";
 
 export type MyInfo = {
   user_id: string;
-  name: string;
-  email: string;
-  phone: string | null;
+  user_name: string;
+  user_email: string;
+  user_phone: string | null;
   license_plate: string;
   membership_tier: string;
 };

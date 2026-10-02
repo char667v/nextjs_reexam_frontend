@@ -24,10 +24,10 @@ export default function ProfileInfo() {
 
   useEffect(() => {
     if (me) {                       // when the data arrives, fill the form with it
-      setName(me.name);
-      setPhone(me.phone ?? "");
-      setPlate(me.license_plate ?? "");
-    }
+    setName(me.user_name);
+    setPhone(me.user_phone ?? "");
+    setPlate(me.license_plate ?? "");
+  }
   }, [me]);
 
   async function handleSave() {
@@ -94,7 +94,7 @@ export default function ProfileInfo() {
             <FormField label="Nummerplade" value={plate} onChange={setPlate} bordered={false} />
           </ProfileGroup>
 
-          <p className="text-body-xs text-[#8a8a86]">Email: {me.email}</p>
+          <p className="text-body-xs text-[#8a8a86]">Email: {me.user_email}</p>
 
           {error && <p className="text-body-sm text-danger mt-3">{error}</p>}
 
