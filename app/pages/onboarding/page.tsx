@@ -48,31 +48,12 @@ export default function Onboarding() {
       return;
     }
 
-    setLoading(true);
-    try {
-      const res = await fetch("http://localhost:80/api-signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          user_name: name,
-          user_email: email,
-          user_phone: phone,
-          user_password: password,
-          license_plate: plate,
-        }),
-      });
-      // "Hey backend, create a user with these details"
-      const data = await res.json();
-      if (!res.ok) {
-        setError(data.message || "Kunne ikke oprette bruger");   // e.g. 409 "Email er allerede i brug"
-        return;
-      }
-      router.push("/pages/wash/select-single-wash");   // same next step as before
-    } catch {
-      setError("System under maintenance");
-    } finally {
-      setLoading(false);
-    }
+    // Don't create the user yet: keep the form in this tab until a program is chosen
+    sessionStorage.setItem(
+      "signup_draft",
+      JSON.stringify({ user_name: name, user_email: email, user_phone: phone, user_password: password, license_plate: plate }),
+    );
+    router.push("/pages/wash/select-single-wash");
   }
 
   return (
