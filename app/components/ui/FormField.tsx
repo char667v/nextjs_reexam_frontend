@@ -3,10 +3,11 @@
 type FormFieldProps = {
   label: string;
   value: string;
-  onChange: (value: string) => void;
+  onChange?: (value: string) => void;   // optional: a read-only field has nothing to change
   type?: string;
   placeholder?: string;
   bordered?: boolean;
+  readOnly?: boolean;
 };
 
 export default function FormField({
@@ -16,6 +17,7 @@ export default function FormField({
   type = "text",
   placeholder,
   bordered = true,
+  readOnly = false,
 }: FormFieldProps) {
   return (
     <div className={bordered ? "border border-brand rounded-xl px-4 py-2" : "py-2"}>
@@ -23,36 +25,11 @@ export default function FormField({
       <input
         type={type}
         value={value}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e) => onChange?.(e.target.value)}
         placeholder={placeholder}
-        className="w-full bg-transparent outline-none text-body-md text-foreground placeholder:text-[#6b6b68]"
+        readOnly={readOnly}
+        className={`w-full bg-transparent outline-none text-body-md placeholder:text-[#6b6b68] ${readOnly ? "text-[#8a8a86]" : "text-foreground"}`}
       />
     </div>
   );
 }
-
-
-// "use client";
-
-// type FormFieldProps = {
-//   label: string;
-//   value: string;
-//   onChange: (value: string) => void;
-//   type?: string;
-//   placeholder?: string;
-// };
-
-// export default function FormField({ label, value, onChange, type = "text", placeholder }: FormFieldProps) {
-//   return (
-//     <div className="border border-brand rounded-xl px-4 py-2">
-//       <label className="block text-body-md font-bold text-foreground">{label}</label>
-//       <input
-//         type={type}
-//         value={value}
-//         onChange={(e) => onChange(e.target.value)}
-//         placeholder={placeholder}
-//         className="w-full bg-transparent outline-none text-body-xs text-foreground placeholder:text-[#6b6b68]"
-//       />
-//     </div>
-//   );
-// }

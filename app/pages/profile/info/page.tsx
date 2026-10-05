@@ -8,9 +8,7 @@ import { useMyInfo } from "../../../hooks/useMyInfo";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { BASE_URL } from "@/app/lib/api";
-
-const plateFormat = /^[A-Z]{2} \d{2} \d{3}$/;
-const phoneFormat = /^\+45 \d{2} \d{2} \d{2} \d{2}$/;
+import { validateName, validatePhone, validatePlate } from "@/app/lib/validation";
 
 export default function ProfileInfo() {
   const router = useRouter();
@@ -34,24 +32,9 @@ export default function ProfileInfo() {
 
   async function handleSave() {
     setError("");
-    if (!name.trim()) {
-      setError("Navn skal udfyldes.");
-      return;
-    }
-    if (!phone.trim()) {
-      setError("Telefon skal udfyldes.");
-      return;
-    }
-    if (!phoneFormat.test(phone)) {
-      setError("Telefon skal have formatet +45 12 34 56 78.");
-      return;
-    }
-    if (!plate.trim()) {
-      setError("Nummerplade skal udfyldes.");
-      return;
-    }
-    if (!plateFormat.test(plate)) {
-      setError("Nummerplade skal have formatet AB 12 345.");
+    const message = validateName(name) || validatePhone(phone) || validatePlate(plate);
+    if (message) {
+      setError(message);
       return;
     }
 
@@ -64,7 +47,11 @@ export default function ProfileInfo() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ user_name: name, user_phone: phone, license_plate: plate }),
+        body: JSON.stringify({
+          user_name: name,
+          license_plate: plate,
+          ...(phone.trim() ? { user_phone: phone } : {}), // phone is optional: only send it if it's filled in
+        }),
       });
       // "Hey backend, update my details. Here's my wristband."
       const data = await res.json();
@@ -92,12 +79,11 @@ export default function ProfileInfo() {
         <>
           <ProfileGroup>
             <FormField label="Navn" value={name} onChange={setName} bordered={false} />
+            <FormField label="Email" value={me.user_email} type="email" bordered={false} readOnly />
             <FormField label="Telefon" value={phone} onChange={setPhone} type="tel" bordered={false} />
             <FormField label="Nummerplade" value={plate} onChange={setPlate} bordered={false} />
           </ProfileGroup>
-
-          <p className="text-body-xs text-[#8a8a86]">Email: {me.user_email}</p>
-
+          
           {error && <p className="text-body-sm text-danger mt-3">{error}</p>}
 
           <div className="mt-6">
