@@ -5,12 +5,18 @@ import BayStatusCard from "../../../components/ui/BayStatusCard";
 import PillButton from "../../../components/ui/PillButton";
 import { FaMapMarkerAlt, FaTint } from "react-icons/fa";
 import { useRouter } from "next/navigation";
+import { getWashSession, type WashSession } from "../../../lib/washSession";
 
 const WASH_DURATION_SECONDS = 103; // 01:43
 
 export default function WashProgress() {
   const router = useRouter();
   const [secondsLeft, setSecondsLeft] = useState(WASH_DURATION_SECONDS);
+  const [session, setSession] = useState<WashSession | null>(null);
+
+  useEffect(() => {
+    setSession(getWashSession()); // which hall and program the user chose (sessionStorage only exists in the browser)
+  }, []);
 
   useEffect(() => {
     if (secondsLeft <= 0) {
@@ -18,12 +24,14 @@ export default function WashProgress() {
       return;
     }
     const timer = setTimeout(() => setSecondsLeft((s) => s - 1), 1000);
-    return () => clearTimeout(timer);
+    return () => clearTimeout(timer); // cleanup: cancel the timer if the page closes
   }, [secondsLeft, router]);
 
   const minutes = Math.floor(secondsLeft / 60);
   const seconds = secondsLeft % 60;
   const formatted = `${minutes}:${seconds.toString().padStart(2, "0")}`;
+
+  if (!session) return null; // nothing chosen yet (or still reading the session)
 
   return (
     <div className="pt-20 pr-14 pl-14 flex flex-col gap-4">
@@ -31,13 +39,13 @@ export default function WashProgress() {
         title="Din vask er igang"
         showClose={false}
         details={[
-          { icon: <FaMapMarkerAlt />, text: "Wash World Søborg - Vaskehal 2" },
-          { icon: <FaTint />, text: "Program: Guld" },
+          { icon: <FaMapMarkerAlt />, text: `${session.locationName} - Vaskehal 2` },
+          { icon: <FaTint />, text: `Program: ${session.tier}` },
         ]}
       />
 
       <div className="my-6">
-        <BayStatusCard image="/png/vaskehal-optaget.png" alt="Vaskebås 2, optaget" />
+        <BayStatusCard image="/png/vaskehal-optaget.png" alt="Vaskehal 2, optaget" />
       </div>
 
       <p className="text-h2 text-foreground text-center mt-6">{formatted}</p>
