@@ -26,16 +26,15 @@ export async function fetchMyInfo(): Promise<MyInfo> {
   return data.user;
 }
 
-export function useMyInfo(enabled: boolean = true) {
+export function useMyInfo() {
   const router = useRouter();
   const query = useQuery({
-    queryKey: ["myInfo"], // same key as the button, so the page reads the button's cached answer
+    queryKey: ["myInfo"],
     queryFn: fetchMyInfo,
-    staleTime: 60 * 1000, // treat the cached user data as fresh for 60 seconds
+    staleTime: 60 * 1000,
     retry: false,
-    enabled,                   // false = don't fetch (for new users who aren't logged in)
   });
-  // Safety net: if someone opens the page directly without a valid token, send them to login
+  
   useEffect(() => {
     if (query.error?.message === "Unauthorized") router.push("/pages/login");
   }, [query.error, router]);

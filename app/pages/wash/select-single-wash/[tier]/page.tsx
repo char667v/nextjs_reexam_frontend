@@ -1,13 +1,10 @@
 "use client";
+import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { IoArrowBack } from "react-icons/io5";
-import PromoBanner from "../../../../components/ui/PromoBanner";
+import { useQueryClient } from "@tanstack/react-query";
 import AppHeader from "@/app/components/layout/AppHeader";
 import TierDetailCard from "../../../../components/ui/TierDetailCard";
 import PillButton from "../../../../components/ui/PillButton";
-import { getMembershipTier, setMembershipTier } from "../../../../lib/membership";
-import { useEffect, useState } from "react";
-import { useQueryClient } from "@tanstack/react-query";
 
 const tierDetails: Record<string, { name: string; subtitle: string; price: string; icon: string; description: string; totalIcons: number }> = {
   guld: {
@@ -39,15 +36,10 @@ const tierDetails: Record<string, { name: string; subtitle: string; price: strin
 export default function TierDetailPage() {
   const router = useRouter();
   const params = useParams();
-  const tier = tierDetails[params.tier as string];
   const queryClient = useQueryClient();
-  const [isFirstTime, setIsFirstTime] = useState(false);
+  const tier = tierDetails[params.tier as string];
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    setIsFirstTime(sessionStorage.getItem("signup_draft") !== null);   // a pending signup form = new user
-  }, []);
 
   if (!tier) return null;
 
@@ -55,44 +47,23 @@ export default function TierDetailPage() {
     setError("");
     setLoading(true);
     try {
-      if (isFirstTime) {
-        // NEW USER: send the signup now, with the chosen tier
-        const draft = JSON.parse(sessionStorage.getItem("signup_draft") ?? "{}");
-        const res = await fetch("http://localhost:80/api-signup", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ ...draft, membership_tier: tier.name }),
-        });
-        // "Hey backend, create a user with these details and this program"
-        const data = await res.json();
-        if (!res.ok) {
-          setError(data.message || "Kunne ikke oprette bruger");
-          return;
-        }
-        sessionStorage.removeItem("signup_draft");
-        setMembershipTier(tier.name);
-        router.push("/pages/onboarding/signed-up");
-      } else {
-        // RETURNING USER: change the program with the JWT
-        const token = localStorage.getItem("access_token");
-        const res = await fetch("http://localhost:80/api-update-my-info", {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-          body: JSON.stringify({ membership_tier: tier.name }),
-        });
-        // "Hey backend, change my program. Here's my wristband."
-        if (res.status === 401 || res.status === 422) {
-          router.push("/pages/login");
-          return;
-        }
-        if (!res.ok) {
-          setError("Kunne ikke opdatere medlemskab");
-          return;
-        }
-        queryClient.invalidateQueries({ queryKey: ["myInfo"] });
-        setMembershipTier(tier.name);
-        router.push("/pages/profile/membership/updated_membership");
+      const token = localStorage.getItem("access_token");
+      const res = await fetch("http://localhost:80/api-update-my-info", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ membership_tier: tier.name }),
+      });
+      // "Hey backend, change my program. Here's my wristband."
+      if (res.status === 401 || res.status === 422) {
+        router.push("/pages/login");
+        return;
       }
+      if (!res.ok) {
+        setError("Kunne ikke opdatere medlemskab");
+        return;
+      }
+      queryClient.invalidateQueries({ queryKey: ["myInfo"] });   // every page showing the tier fetches the new one
+      router.push(`/pages/profile/membership/updated_membership?tier=${tier.name}`);
     } catch {
       setError("System under maintenance");
     } finally {
@@ -109,7 +80,7 @@ export default function TierDetailPage() {
       <div className="mt-6">
         {error && <p className="text-body-sm text-[#E24B4A]">{error}</p>}
         <PillButton onClick={handleConfirm} disabled={loading}>
-          {loading ? "Vent…" : isFirstTime ? "Opret medlemskab" : `Vælg ${tier.name.toLowerCase()} vask`}
+          {loading ? "Gemmer…" : `Vælg ${tier.name.toLowerCase()} vask`}
         </PillButton>
       </div>
 

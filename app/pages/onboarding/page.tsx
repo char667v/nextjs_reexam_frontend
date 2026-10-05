@@ -3,40 +3,35 @@ import AppHeader from "../../components/layout/AppHeader";
 import FormField from "../../components/ui/FormField";
 import ProfileGroup from "../../components/ui/ProfileGroup";
 import PillButton from "../../components/ui/PillButton";
+import TierSelector from "../../components/ui/TierSelector";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function Onboarding() {
   const router = useRouter();
+  const [step, setStep] = useState<"details" | "tier">("details");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [plate, setPlate] = useState("");
+  const [tier, setTier] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // async function handleSignup() {
-  //   setError("");
-  //   // setLoading(true);
-
-  //   // TEMPORARY: no backend yet, simulating a successful signup.
-  //   setTimeout(() => {
-  //     setLoading(false);
-  //     router.push("/pages/wash/select-single-wash");
-  //   }, 500);
-  // }
-
-  async function handleSignup() {
+  // Step 1: check the details (same rules as the backend's validators in x.py), then show the tier step
+  function handleContinue() {
     setError("");
-
-    // Frontend validation: the same rules as the backend's validators in x.py
     if (name.trim().length < 2 || name.trim().length > 20) {
       setError("Navn skal være 2–20 tegn.");
       return;
     }
     if (!email.includes("@")) {
       setError("Indtast en gyldig email.");
+      return;
+    }
+    if (phone.trim() && !/^(\+45)?\s?(\d{2}\s?){4}$/.test(phone.trim())) {
+      setError("Indtast et gyldigt dansk telefonnummer.");
       return;
     }
     if (password.length < 8 || password.length > 50) {
@@ -47,13 +42,52 @@ export default function Onboarding() {
       setError("Nummerpladen skal være 2–10 tegn.");
       return;
     }
+    setStep("tier");
+  }
 
-    // Don't create the user yet: keep the form in this tab until a program is chosen
-    sessionStorage.setItem(
-      "signup_draft",
-      JSON.stringify({ user_name: name, user_email: email, user_phone: phone, user_password: password, license_plate: plate }),
+  // Step 2: create the user with all details and the chosen tier in one request
+  async function handleSignup() {
+    if (!tier) return;
+    setError("");
+    setLoading(true);
+    try {
+      const res = await fetch("http://localhost:80/api-signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          user_name: name,
+          user_email: email,
+          user_phone: phone,
+          user_password: password,
+          license_plate: plate,
+          membership_tier: tier,
+        }),
+      });
+      // "Hey backend, create a user with these details and this program"
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.message || "Kunne ikke oprette bruger");   // e.g. 409 "Email er allerede i brug"
+        return;
+      }
+      router.push(`/pages/onboarding/signed-up?tier=${tier}`);
+    } catch {
+      setError("System under maintenance");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  if (step === "tier") {
+    return (
+      <div className="pt-20 pr-10 pl-14 flex flex-col gap-4">
+        <AppHeader title="Vælg medlemskab" onClose={() => setStep("details")} />
+        <TierSelector selected={tier} onSelect={setTier} />
+        {error && <p className="text-body-sm text-[#E24B4A]">{error}</p>}
+        <PillButton onClick={handleSignup} disabled={!tier || loading}>
+          {loading ? "Opretter…" : "Opret medlemskab"}
+        </PillButton>
+      </div>
     );
-    router.push("/pages/wash/select-single-wash");
   }
 
   return (
@@ -82,9 +116,7 @@ export default function Onboarding() {
 
         {error && <p className="text-body-sm text-[#E24B4A]">{error}</p>}
 
-        <PillButton onClick={handleSignup} disabled={loading}>
-          {loading ? "Opretter…" : "Gem og fortsæt"}
-        </PillButton>
+        <PillButton onClick={handleContinue}>Gem og fortsæt</PillButton>
       </div>
     </div>
   );

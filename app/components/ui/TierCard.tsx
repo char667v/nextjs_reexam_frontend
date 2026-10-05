@@ -22,7 +22,6 @@ export default function TierCard({
   showChevron = true,
 }: TierCardProps) {
 
-  console.log("TierCard:", name, "icon:", JSON.stringify(icon));
   return (
     <button
       onClick={onClick}
