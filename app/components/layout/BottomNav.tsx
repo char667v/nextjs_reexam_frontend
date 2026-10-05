@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useQueryClient } from "@tanstack/react-query";
+import { fetchMyInfo } from "../../hooks/useMyInfo";
 
 function ProfileIcon() {
   return (
@@ -32,17 +34,38 @@ function HomeIcon() {
 
 export default function BottomNav() {
   const pathname = usePathname();
+  const router = useRouter();
+  const queryClient = useQueryClient();
+
+  // Version 2 from the slides: check the token BEFORE navigating to the profile
+  async function handleGoToProfile() {
+    try {
+      // fetchQuery fetches AND stores the answer in the cache under ["myInfo"].
+      // The profile page uses the same key within staleTime, so it reads the cache: no second request.
+      await queryClient.fetchQuery({
+        queryKey: ["myInfo"],
+        queryFn: fetchMyInfo,
+        staleTime: 60 * 1000,
+        retry: false,
+      });
+      router.push("/pages/profile");   // only runs if the check above didn't throw
+    } catch {
+      router.push("/pages/login");     // invalid or missing token: straight to login, no flicker
+    }
+  }
 
   return (
     <div className="fixed bottom-6 left-1/2 -translate-x-1/2 flex gap-4">
-      <Link
-        href="/pages/profile"
+      <button
+        type="button"
+        onClick={handleGoToProfile}
+        aria-label="Profil"
         className={`w-14 h-14 rounded-2xl bg-background flex items-center justify-center ${
           pathname === "/pages/profile" ? "text-brand" : "text-primary"
         }`}
       >
         <ProfileIcon />
-      </Link>
+      </button>
       <Link
         href="/pages/dashboard"
         className={`w-14 h-14 rounded-2xl bg-background flex items-center justify-center ${
@@ -54,3 +77,60 @@ export default function BottomNav() {
     </div>
   );
 }
+
+// "use client";
+
+// import Link from "next/link";
+// import { usePathname } from "next/navigation";
+
+// function ProfileIcon() {
+//   return (
+//     <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+//       <circle cx="12" cy="8" r="3.5" stroke="currentColor" strokeWidth="1.8" />
+//       <path
+//         d="M5.5 19c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"
+//         stroke="currentColor"
+//         strokeWidth="1.8"
+//         strokeLinecap="round"
+//       />
+//     </svg>
+//   );
+// }
+
+// function HomeIcon() {
+//   return (
+//     <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+//       <path
+//         d="M4 11L12 4l8 7v8a1 1 0 01-1 1h-4v-6H9v6H5a1 1 0 01-1-1v-8z"
+//         stroke="currentColor"
+//         strokeWidth="1.8"
+//         strokeLinejoin="round"
+//       />
+//     </svg>
+//   );
+// }
+
+// export default function BottomNav() {
+//   const pathname = usePathname();
+
+//   return (
+//     <div className="fixed bottom-6 left-1/2 -translate-x-1/2 flex gap-4">
+//       <Link
+//         href="/pages/profile"
+//         className={`w-14 h-14 rounded-2xl bg-background flex items-center justify-center ${
+//           pathname === "/pages/profile" ? "text-brand" : "text-primary"
+//         }`}
+//       >
+//         <ProfileIcon />
+//       </Link>
+//       <Link
+//         href="/pages/dashboard"
+//         className={`w-14 h-14 rounded-2xl bg-background flex items-center justify-center ${
+//           pathname === "/pages/dashboard" ? "text-brand" : "text-primary"
+//         }`}
+//       >
+//         <HomeIcon />
+//       </Link>
+//     </div>
+//   );
+// }
