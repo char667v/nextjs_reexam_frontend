@@ -18,10 +18,9 @@ export default function SignedUp() {
       <LuUserRoundCheck className="mb-12 w-32 h-32 text-brand" />
       <h1 className="text-h2 text-brand">Velkommen til Wash World!</h1>
 
-      <p className="text-body-md text-foreground">Dit medlemskab er {tier}.</p>
-
+<p className="text-body-md text-foreground">Dit medlemskab er {tier}. Bekræft din email, og log derefter ind.</p>
       <div className="mt-6 w-full">
-        <PillButton onClick={() => router.push("/pages/dashboard")}>Gå til forside</PillButton>
+        <PillButton onClick={() => router.push("/pages/login")}>Luk</PillButton>
       </div>
     </div>
   );

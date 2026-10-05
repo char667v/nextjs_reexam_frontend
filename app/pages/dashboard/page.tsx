@@ -11,6 +11,7 @@ import { IoTimeOutline } from "react-icons/io5";
 import { GiVacuumCleaner } from "react-icons/gi";
 import { BiSolidCarWash } from "react-icons/bi";
 import { FaHandsWash } from "react-icons/fa";
+import { useMyInfo } from "../../hooks/useMyInfo";
 
 type MapLocation = {
   id: string;
@@ -32,6 +33,8 @@ const locations: MapLocation[] = [
 
 export default function Dashboard() {
   const router = useRouter();
+  const { data: me } = useMyInfo();   // the logged-in user, including membership_tier from the database
+  const prices: Record<string, string> = { Guld: "59", Premium: "89", Brilliant: "119" };
   const [search, setSearch] = useState("");
   const [selectedLocationId, setSelectedLocationId] = useState<string>(locations[0].id);
   const [sheetOpen, setSheetOpen] = useState(false);
@@ -47,8 +50,8 @@ export default function Dashboard() {
       locationId: selected.id,
       locationName: selected.name,
       locationAddress: selected.address,
-      tier: "Guld",
-      price: "59",
+      tier: me?.membership_tier ?? "Guld",
+      price: prices[me?.membership_tier ?? "Guld"],
     });
     router.push("/pages/wash/start");
   }

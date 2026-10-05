@@ -5,14 +5,16 @@ import PromoBanner from "@/app/components/ui/PromoBanner";
 import TierSelector from "@/app/components/ui/TierSelector";
 import { getMembershipTier } from "@/app/lib/membership";
 import { useRouter } from "next/navigation";
+import { useMyInfo } from "@/app/hooks/useMyInfo";
 
 export default function ClientMembershipPage() {
   const router = useRouter();
   const [tier, setTier] = useState("");
+  const { data: me } = useMyInfo();
 
   useEffect(() => {
-    setTier(getMembershipTier() ?? "Guld");
-  }, []);
+    if (me) setTier(me.membership_tier); // the tier from the database
+  }, [me]);
 
   return (
     <div className="pt-20 pr-14 pl-14 flex flex-col gap-4">
@@ -33,9 +35,6 @@ export default function ClientMembershipPage() {
   );
 }
 
-
-
-
 // "use client";
 // import { useState } from "react";
 // import AppHeader from "@/app/components/layout/AppHeader";
@@ -55,7 +54,7 @@ export default function ClientMembershipPage() {
 //   return (
 //     <div className="pt-20 pr-14 pl-14 flex flex-col gap-4">
 //       <AppHeader onClose={() => router.push("/pages/dashboard")} />
-        
+
 //       <PromoBanner
 //         src="/jpg/enkeltvask-banner.jpg"
 //         alt="Enkeltvask - betal kun for den vask, du bruger"

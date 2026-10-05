@@ -19,9 +19,9 @@ export default function Profile() {
   const [deleteError, setDeleteError] = useState("");
 
   useEffect(() => {
-    setTier(getMembershipTier() ?? "Guld");   // TEMPORARY: the tier choice isn't synced to the account yet
-  }, []);
-
+    if (me) setTier(me.membership_tier);   // the tier from the database
+  }, [me]);
+  
   function handleLogout() {
     localStorage.removeItem("access_token");
     localStorage.removeItem("authUser");
