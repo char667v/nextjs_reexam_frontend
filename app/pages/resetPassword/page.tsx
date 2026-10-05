@@ -4,6 +4,7 @@ import FormField from "../../components/ui/FormField";
 import PillButton from "../../components/ui/PillButton";
 import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { BASE_URL } from "@/app/lib/api";
 
 function ResetPasswordForm() {
   const router = useRouter();
@@ -33,7 +34,7 @@ function ResetPasswordForm() {
 
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:80/api-reset-password", {
+      const res = await fetch(`${BASE_URL}/api-reset-password`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token, new_user_password: newPassword }),
@@ -53,22 +54,14 @@ function ResetPasswordForm() {
 
   return (
     <div className="pt-20 pr-14 pl-14 flex flex-col gap-4">
-      <AppHeader
-        title="Opret ny adgangskode"
-        subtitle="Din nye adgangskode skal være forskellig fra din tidligere adgangskode"
-        onClose={() => router.push("/")}
-      />
+      <AppHeader title="Opret ny adgangskode" subtitle="Din nye adgangskode skal være forskellig fra din tidligere adgangskode" onClose={() => router.push("/")} />
 
       <div className="flex flex-col gap-4">
         <FormField label="Adgangskode" value={newPassword} onChange={setNewPassword} type="password" placeholder="********" />
-        <p className="text-left text-body-xs text-muted -mt-3 pb-5">
-          Skal indeholde mindst 8 karakter.
-        </p>
+        <p className="text-left text-body-xs text-muted -mt-3 pb-5">Skal indeholde mindst 8 karakter.</p>
 
         <FormField label="Bekræft adgangskode" value={confirmPassword} onChange={setConfirmPassword} type="password" placeholder="********" />
-        <p className="text-left text-body-xs text-muted -mt-2 pb-5">
-          Begge adgangskoder skal være ens.
-        </p>
+        <p className="text-left text-body-xs text-muted -mt-2 pb-5">Begge adgangskoder skal være ens.</p>
 
         {error && <p className="text-body-sm text-danger">{error}</p>}
 

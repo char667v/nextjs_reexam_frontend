@@ -6,6 +6,7 @@ import { FaMapMarkerAlt, FaTint } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getWashSession, updateWashSession, type WashSession } from "../../../lib/washSession";
+import { BASE_URL } from "@/app/lib/api";
 
 export default function WashStart() {
   const router = useRouter();
@@ -14,7 +15,7 @@ export default function WashStart() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setSession(getWashSession());   // sessionStorage only exists in the browser, so read it after the page loads
+    setSession(getWashSession()); // sessionStorage only exists in the browser, so read it after the page loads
   }, []);
 
   async function handleStartWash() {
@@ -23,7 +24,7 @@ export default function WashStart() {
     setLoading(true);
     try {
       const token = localStorage.getItem("access_token");
-      const res = await fetch("http://localhost:80/api-start-wash", {
+      const res = await fetch(`${BASE_URL}/api-start-wash`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -37,7 +38,7 @@ export default function WashStart() {
         setError(data.message || "Kunne ikke starte vask");
         return;
       }
-      updateWashSession({ washId: data.wash_id });   // remember which wash was started
+      updateWashSession({ washId: data.wash_id }); // remember which wash was started
       router.push("/pages/wash/progress");
     } catch {
       setError("System under maintenance");
@@ -46,7 +47,7 @@ export default function WashStart() {
     }
   }
 
-  if (!session) return null;   // nothing chosen yet (or still reading the session)
+  if (!session) return null; // nothing chosen yet (or still reading the session)
 
   return (
     <div className="pt-20 pr-14 pl-14 flex flex-col gap-4">
@@ -67,9 +68,7 @@ export default function WashStart() {
       <p className="text-body-sm text-foreground mb-2">
         Tryk på start for at begynde din bilvask med {session.tier} programmet til {session.price}kr.
       </p>
-      <p className="text-body-sm text-[#8a8a86] mb-8">
-        Beløbet bliver trukket automatisk via kortbetaling.
-      </p>
+      <p className="text-body-sm text-[#8a8a86] mb-8">Beløbet bliver trukket automatisk via kortbetaling.</p>
 
       {error && <p className="text-body-sm text-[#E24B4A]">{error}</p>}
 
@@ -77,7 +76,9 @@ export default function WashStart() {
         <PillButton onClick={handleStartWash} disabled={loading}>
           {loading ? "Starter vask…" : "Ja, start vask"}
         </PillButton>
-        <PillButton variant="danger-outline" onClick={() => router.push("/pages/dashboard")}>Fortryd</PillButton>
+        <PillButton variant="danger-outline" onClick={() => router.push("/pages/dashboard")}>
+          Fortryd
+        </PillButton>
       </div>
     </div>
   );

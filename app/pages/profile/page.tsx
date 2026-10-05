@@ -8,17 +8,18 @@ import BottomSheet from "../../components/ui/BottomSheet";
 import { useMyInfo } from "../../hooks/useMyInfo";
 import { useRouter } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
+import { BASE_URL } from "@/app/lib/api";
 
 export default function Profile() {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const { data: me, isError } = useMyInfo();   // the logged-in user, from the backend
-  const [confirmOpen, setConfirmOpen] = useState(false);   // is the warning sheet open?
+  const { data: me, isError } = useMyInfo(); // the logged-in user, from the backend
+  const [confirmOpen, setConfirmOpen] = useState(false); // is the warning sheet open?
   const [deleteError, setDeleteError] = useState("");
 
   function handleLogout() {
     localStorage.removeItem("access_token");
-    queryClient.clear();   // forget the cached data of the user who logged out
+    queryClient.clear(); // forget the cached data of the user who logged out
     router.push("/");
   }
 
@@ -26,7 +27,7 @@ export default function Profile() {
     setDeleteError("");
     try {
       const token = localStorage.getItem("access_token");
-      const res = await fetch("http://localhost:80/api-delete-account", {
+      const res = await fetch(`${BASE_URL}/api-delete-account`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -35,7 +36,7 @@ export default function Profile() {
         setDeleteError("Kunne ikke slette kontoen. Prøv igen.");
         return;
       }
-      handleLogout();   // the account is gone: clear the token and cache, go to the start page
+      handleLogout(); // the account is gone: clear the token and cache, go to the start page
     } catch {
       setDeleteError("System under maintenance");
     }
@@ -43,19 +44,10 @@ export default function Profile() {
 
   return (
     <div className="pt-20 pr-10 pl-14 flex flex-col gap-4">
-      <AppHeader
-        title={isError ? "Kunne ikke hente profil" : (me?.user_name ?? "Henter…")}
-        subtitle={me?.license_plate ?? ""}
-        onClose={() => router.push("/pages/dashboard")}
-      />
+      <AppHeader title={isError ? "Kunne ikke hente profil" : (me?.user_name ?? "Henter…")} subtitle={me?.license_plate ?? ""} onClose={() => router.push("/pages/dashboard")} />
 
       <ProfileGroup>
-        <ProfileRow
-          label="Mit medlemskab"
-          value={me ? `${me.membership_tier} enkeltvask` : "Henter…"}
-          labelColor="brand"
-          href="/pages/profile/membership/client_membership"
-        />
+        <ProfileRow label="Mit medlemskab" value={me ? `${me.membership_tier} enkeltvask` : "Henter…"} labelColor="brand" href="/pages/profile/membership/client_membership" />
         <ProfileRow label="Seneste vaskehistorik" value="Se dine seneste vaske" labelColor="brand" href="/pages/profile/history" />
         <ProfileRow label="Mine oplysninger" value="Opdater dine oplysninger" labelColor="brand" href="/pages/profile/info" />
       </ProfileGroup>
@@ -71,12 +63,14 @@ export default function Profile() {
         <BottomSheet onClose={() => setConfirmOpen(false)}>
           <div className="flex flex-col gap-4 p-6">
             <p className="text-h5 text-foreground font-bold">Slet konto?</p>
-            <p className="text-body-sm text-[#8a8a86]">
-              Er du sikker på, at du vil slette din konto? Din vaskehistorik slettes også, og det kan ikke fortrydes.
-            </p>
+            <p className="text-body-sm text-[#8a8a86]">Er du sikker på, at du vil slette din konto? Din vaskehistorik slettes også, og det kan ikke fortrydes.</p>
             {deleteError && <p className="text-body-sm text-[#E24B4A]">{deleteError}</p>}
-            <PillButton variant="danger" onClick={handleDeleteAccount}>Ja, slet min konto</PillButton>
-            <PillButton variant="outline" onClick={() => setConfirmOpen(false)}>Fortryd</PillButton>
+            <PillButton variant="danger" onClick={handleDeleteAccount}>
+              Ja, slet min konto
+            </PillButton>
+            <PillButton variant="outline" onClick={() => setConfirmOpen(false)}>
+              Fortryd
+            </PillButton>
           </div>
         </BottomSheet>
       )}

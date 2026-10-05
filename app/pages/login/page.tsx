@@ -5,6 +5,7 @@ import PillButton from "../../components/ui/PillButton";
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { BASE_URL } from "@/app/lib/api";
 
 export default function Login() {
   const router = useRouter();
@@ -17,7 +18,7 @@ export default function Login() {
     setError("");
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:80/api-login", {
+      const res = await fetch(`${BASE_URL}/api-login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ user_email: email, user_password: password }),

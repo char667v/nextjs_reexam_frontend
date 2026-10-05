@@ -7,6 +7,7 @@ import PillButton from "../../../components/ui/PillButton";
 import { useMyInfo } from "../../../hooks/useMyInfo";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import { BASE_URL } from "@/app/lib/api";
 
 const plateFormat = /^[A-Z]{2} \d{2} \d{3}$/;
 const phoneFormat = /^\+45 \d{2} \d{2} \d{2} \d{2}$/;
@@ -14,7 +15,7 @@ const phoneFormat = /^\+45 \d{2} \d{2} \d{2} \d{2}$/;
 export default function ProfileInfo() {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const { data: me, isPending, isError } = useMyInfo();   // the logged-in user, from the backend
+  const { data: me, isPending, isError } = useMyInfo(); // the logged-in user, from the backend
 
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -23,11 +24,12 @@ export default function ProfileInfo() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (me) {                       // when the data arrives, fill the form with it
-    setName(me.user_name);
-    setPhone(me.user_phone ?? "");
-    setPlate(me.license_plate ?? "");
-  }
+    if (me) {
+      // when the data arrives, fill the form with it
+      setName(me.user_name);
+      setPhone(me.user_phone ?? "");
+      setPlate(me.license_plate ?? "");
+    }
   }, [me]);
 
   async function handleSave() {
@@ -56,7 +58,7 @@ export default function ProfileInfo() {
     setLoading(true);
     try {
       const token = localStorage.getItem("access_token");
-      const res = await fetch("http://localhost:80/api-update-my-info", {
+      const res = await fetch(`${BASE_URL}/api-update-my-info`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -70,7 +72,7 @@ export default function ProfileInfo() {
         setError(data.message || "Kunne ikke gemme oplysninger");
         return;
       }
-      queryClient.invalidateQueries({ queryKey: ["myInfo"] });   // the profile page fetches the new values
+      queryClient.invalidateQueries({ queryKey: ["myInfo"] }); // the profile page fetches the new values
       router.push("/pages/profile");
     } catch {
       setError("System under maintenance");

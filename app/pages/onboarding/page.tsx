@@ -9,6 +9,7 @@ import TierDetailCard from "../../components/ui/TierDetailCard";
 import { tierDetails } from "../../lib/tiers";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { BASE_URL } from "@/app/lib/api";
 
 export default function Onboarding() {
   const router = useRouter();
@@ -18,7 +19,7 @@ export default function Onboarding() {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [plate, setPlate] = useState("");
-  const [tier, setTier] = useState("Guld");   // Guld is highlighted by default
+  const [tier, setTier] = useState("Guld"); // Guld is highlighted by default
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -59,7 +60,7 @@ export default function Onboarding() {
     setError("");
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:80/api-signup", {
+      const res = await fetch(`${BASE_URL}/api-signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -74,7 +75,7 @@ export default function Onboarding() {
       // "Hey backend, create a user with these details and this program"
       const data = await res.json();
       if (!res.ok) {
-        setError(data.message || "Kunne ikke oprette bruger");   // e.g. 409 "Email er allerede i brug"
+        setError(data.message || "Kunne ikke oprette bruger"); // e.g. 409 "Email er allerede i brug"
         return;
       }
       router.push(`/pages/onboarding/signed-up?tier=${tier}`);
@@ -139,9 +140,7 @@ export default function Onboarding() {
           <FormField label="Nummerplade" value={plate} onChange={setPlate} placeholder="AB 12 345" />
         </div>
 
-        <p className="text-body-xs text-[#8a8a86]">
-          Betaling foregår automatisk ved scanning af din nummerplade i vaskehallen.
-        </p>
+        <p className="text-body-xs text-[#8a8a86]">Betaling foregår automatisk ved scanning af din nummerplade i vaskehallen.</p>
 
         {error && <p className="text-body-sm text-[#E24B4A]">{error}</p>}
 

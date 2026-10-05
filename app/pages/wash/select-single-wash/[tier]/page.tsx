@@ -6,7 +6,7 @@ import AppHeader from "@/app/components/layout/AppHeader";
 import TierDetailCard from "../../../../components/ui/TierDetailCard";
 import PillButton from "../../../../components/ui/PillButton";
 import { tierDetails } from "@/app/lib/tiers";
-
+import { BASE_URL } from "@/app/lib/api";
 
 export default function TierDetailPage() {
   const router = useRouter();
@@ -23,7 +23,7 @@ export default function TierDetailPage() {
     setLoading(true);
     try {
       const token = localStorage.getItem("access_token");
-      const res = await fetch("http://localhost:80/api-update-my-info", {
+      const res = await fetch(`${BASE_URL}/api-update-my-info`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({ membership_tier: tier.name }),
@@ -37,7 +37,7 @@ export default function TierDetailPage() {
         setError("Kunne ikke opdatere medlemskab");
         return;
       }
-      queryClient.invalidateQueries({ queryKey: ["myInfo"] });   // every page showing the tier fetches the new one
+      queryClient.invalidateQueries({ queryKey: ["myInfo"] }); // every page showing the tier fetches the new one
       router.push(`/pages/profile/membership/updated_membership?tier=${tier.name}`);
     } catch {
       setError("System under maintenance");

@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { BASE_URL } from "@/app/lib/api";
 
 // The shape of one wash hall, exactly as the backend sends it
 export type WashHall = {
@@ -8,7 +9,7 @@ export type WashHall = {
 };
 
 async function fetchWashHalls(): Promise<WashHall[]> {
-  const res = await fetch("http://localhost:80/api-wash-halls");
+  const res = await fetch(`${BASE_URL}/api-wash-halls`);
   // "Hey backend, give me all the wash halls"
   if (!res.ok) throw new Error("Kunne ikke hente vaskehaller");
   const data = await res.json();
