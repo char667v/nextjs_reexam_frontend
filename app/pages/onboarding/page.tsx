@@ -138,7 +138,7 @@ export default function Onboarding() {
 
       <div className="flex flex-col gap-6">
         <div>
-          <p className="text-body-sm font-bold text-foreground mb-2 -mt-8">Profil</p>
+          <p className="text-body-sm font-bold text-foreground mb-2">Profil</p>
           <ProfileGroup>
             <FormField label="Navn" value={name} onChange={setName} placeholder="Dit navn" bordered={false} />
             <FormField label="Email" value={email} onChange={setEmail} type="email" placeholder="Din email" bordered={false} />
