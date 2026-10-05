@@ -1,11 +1,12 @@
 "use client";
 import TierCard from "./TierCard";
+import { tierDetails } from "../../lib/tiers";
 
-const tiers = [
-  { name: "Guld", subtitle: "God og effektiv", price: "59", icon: "/png/car-icon-guld.png" },
-  { name: "Premium", subtitle: "Ekstra grundig", price: "89", icon: "/png/car-icon-premium.png" },
-  { name: "Brilliant", subtitle: "Bedste vask året rundt", price: "119", icon: "/png/car-icon-brilliant.png" },
-];
+// const tiers = [
+//   { name: "Guld", subtitle: "God og effektiv", price: "59", icon: "/png/car-icon-guld.png" },
+//   { name: "Premium", subtitle: "Ekstra grundig", price: "89", icon: "/png/car-icon-premium.png" },
+//   { name: "Brilliant", subtitle: "Bedste vask året rundt", price: "119", icon: "/png/car-icon-brilliant.png" },
+// ];
 
 const membershipDisclaimer = {
   title: "*Spar penge med medlemsskab",
@@ -37,10 +38,21 @@ export default function TierSelector({ selected = "", caption, showFootnote = tr
       )}
 
       <div className="flex flex-col gap-3">
-        {tiers.map((tier) => (
+        {/* {tiers.map((tier) => (
           <TierCard
             key={tier.name}
             {...tier}
+            selected={selected === tier.name}
+            onClick={() => handleSelect(tier.name)}
+          />
+        ))} */}
+            {Object.values(tierDetails).map((tier) => (
+          <TierCard
+            key={tier.name}
+            name={tier.name}
+            subtitle={tier.subtitle}
+            price={tier.price}
+            icon={tier.icon}
             selected={selected === tier.name}
             onClick={() => handleSelect(tier.name)}
           />
