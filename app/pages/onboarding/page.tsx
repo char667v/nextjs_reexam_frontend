@@ -3,23 +3,26 @@ import AppHeader from "../../components/layout/AppHeader";
 import FormField from "../../components/ui/FormField";
 import ProfileGroup from "../../components/ui/ProfileGroup";
 import PillButton from "../../components/ui/PillButton";
+import PromoBanner from "../../components/ui/PromoBanner";
 import TierSelector from "../../components/ui/TierSelector";
+import TierDetailCard from "../../components/ui/TierDetailCard";
+import { tierDetails } from "../../lib/tiers";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function Onboarding() {
   const router = useRouter();
-  const [step, setStep] = useState<"details" | "tier">("details");
+  const [step, setStep] = useState<"details" | "tiers" | "tierDetail">("details");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [plate, setPlate] = useState("");
-  const [tier, setTier] = useState("");
+  const [tier, setTier] = useState("Guld");   // Guld is highlighted by default
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // Step 1: check the details (same rules as the backend's validators in x.py), then show the tier step
+  // Step 1: check the details (same rules as the backend's validators in x.py), then show the programs
   function handleContinue() {
     setError("");
     if (name.trim().length < 2 || name.trim().length > 20) {
@@ -42,12 +45,17 @@ export default function Onboarding() {
       setError("Nummerpladen skal være 2–10 tegn.");
       return;
     }
-    setStep("tier");
+    setStep("tiers");
   }
 
-  // Step 2: create the user with all details and the chosen tier in one request
+  // Step 2: choosing a program shows its details
+  function handleSelectTier(selected: string) {
+    setTier(selected);
+    setStep("tierDetail");
+  }
+
+  // Step 3: create the user with all details and the chosen program in one request
   async function handleSignup() {
-    if (!tier) return;
     setError("");
     setLoading(true);
     try {
@@ -77,15 +85,36 @@ export default function Onboarding() {
     }
   }
 
-  if (step === "tier") {
+  if (step === "tiers") {
     return (
-      <div className="pt-20 pr-10 pl-14 flex flex-col gap-4">
-        <AppHeader title="Vælg medlemskab" onClose={() => setStep("details")} />
-        <TierSelector selected={tier} onSelect={setTier} />
-        {error && <p className="text-body-sm text-[#E24B4A]">{error}</p>}
-        <PillButton onClick={handleSignup} disabled={!tier || loading}>
-          {loading ? "Opretter…" : "Opret medlemskab"}
-        </PillButton>
+      <div className="pt-20 pr-14 pl-14 flex flex-col gap-4">
+        <AppHeader onClose={() => setStep("details")} />
+        <PromoBanner
+          src="/jpg/enkeltvask-banner.jpg"
+          alt="Enkeltvask - betal kun for den vask, du bruger"
+          caption={{
+            title: "Vælg din foretrukne enkeltvask",
+            text: "Du kan vælge mellem vores tre grundige vaskeprogrammer: Guld, Premium og Brilliant",
+          }}
+        />
+        <div className="mt-6">
+          <TierSelector selected={tier} onSelect={handleSelectTier} />
+        </div>
+      </div>
+    );
+  }
+
+  if (step === "tierDetail") {
+    return (
+      <div className="pt-20 pr-14 pl-14 flex flex-col gap-4">
+        <AppHeader onClose={() => setStep("tiers")} />
+        <TierDetailCard {...tierDetails[tier.toLowerCase()]} />
+        <div className="mt-6">
+          {error && <p className="text-body-sm text-[#E24B4A]">{error}</p>}
+          <PillButton onClick={handleSignup} disabled={loading}>
+            {loading ? "Opretter…" : "Opret medlemskab"}
+          </PillButton>
+        </div>
       </div>
     );
   }

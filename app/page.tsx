@@ -9,7 +9,7 @@ export default function Splash() {
   return (
     <div 
       className="h-screen overflow-hidden bg-black flex flex-col justify-between px-6 py-10 bg-cover bg-center bg-no-repeat pt-20 pr-14 pb-28 pl-14"
-      style={{ backgroundImage: "url('/jpg/splash-car.jpg')" }}
+      style={{ backgroundImage: "url('/png/splash.png')" }}
     >
       <div className="flex justify-center">
         <Image
