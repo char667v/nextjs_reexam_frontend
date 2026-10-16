@@ -11,4 +11,14 @@ describe("Login", () => {
       expect(win.localStorage.getItem("access_token")).to.exist;// assertion 2: the token is stored in localStorage. That proves login worked, not just that the page changed.
     });
   });
+    it("shows an error with a wrong password", () => {
+    cy.visit("/pages/login");
+
+    cy.get('input[type="email"]').type("nyhedsbrifer+t1@gmail.com");
+    cy.get('input[type="password"]').type("wrongpassword");
+    cy.contains("button", "Login").click();
+
+    cy.contains("Forkert email eller adgangskode"); // the backend's 401 message is shown
+    cy.url().should("include", "/pages/login");     // and the user stays on the login page
+  });
 });
