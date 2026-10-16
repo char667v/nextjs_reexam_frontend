@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getWashSession, type WashSession } from "../../../lib/washSession";
 import { useRateWash } from "../../../hooks/useRateWash";
+import Image from "next/image";
 
 export default function WashDone() {
   const router = useRouter();
@@ -45,23 +46,26 @@ export default function WashDone() {
         {session?.locationName} · Program: {session?.tier}
       </p>
 
-      <div className="h-40 bg-[#111] rounded-2xl flex items-center justify-center mb-8">
-        <span className="text-body-sm text-[#8a8a86]">billed af ren bil</span>
+      <div className="h-40 flex items-center justify-center">
+        <Image src="/png/clean_car_green.png" alt="Ren bil" width={200} height={200} />
       </div>
 
-      <p className="text-h5 text-brand font-bold text-center mb-8">Tak fordi du vasker med washworld</p>
-
-      <p className="text-body-sm text-foreground text-center mb-3">Hvordan var din oplevelse?</p>
-      <div className="flex justify-center mb-2">
+      <p className="text-h5 text-brand font-bold text-center mb-8">
+        Tak fordi du vasker med Wash World.
+        <br />
+        Vi ønsker dig en god tur videre.
+      </p>
+      <p className="text-body-sm text-foreground text-center">Hvordan var din oplevelse?</p>
+      <div className="flex justify-center">
         <StarRating rating={rating} onRate={handleRate} />
       </div>
       {error && <p className="text-body-sm text-[#E24B4A] text-center mb-8">{error}</p>}
 
-      <div className="flex flex-col gap-3 mt-8">
+      <div className="flex flex-col gap-3 mt-6">
         <PillButton onClick={() => router.push("/pages/dashboard")}>Send feedback</PillButton>
-        <PillButton variant="outline" onClick={() => router.push("/pages/dashboard")}>
+        {/* <PillButton variant="outline" onClick={() => router.push("/pages/dashboard")}>
           Tilbage til forside
-        </PillButton>
+        </PillButton> */}
       </div>
     </div>
   );

@@ -5,6 +5,7 @@ import PillButton from "../../components/ui/PillButton";
 import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { BASE_URL } from "@/app/lib/api";
+import { validatePassword } from "@/app/lib/validation";
 
 function ResetPasswordForm() {
   const router = useRouter();
@@ -23,10 +24,13 @@ function ResetPasswordForm() {
       setError("Linket er ugyldigt eller udløbet.");
       return;
     }
-    if (newPassword.length < 8) {
-      setError("Adgangskoden skal indeholde mindst 8 karakter.");
+    
+    const message = validatePassword(newPassword);
+    if (message) {
+      setError(message);
       return;
     }
+
     if (newPassword !== confirmPassword) {
       setError("Adgangskoderne skal være ens.");
       return;

@@ -5,6 +5,7 @@ import PillButton from "../../components/ui/PillButton";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { BASE_URL } from "@/app/lib/api";
+import { validateEmail } from "@/app/lib/validation";
 
 export default function ForgotPassword() {
   const router = useRouter();
@@ -16,9 +17,9 @@ export default function ForgotPassword() {
   async function handleForgotPassword() {
     setError("");
 
-    if (!email.includes("@")) {
-      // frontend validation
-      setError("Indtast en gyldig email.");
+    const message = validateEmail(email);
+    if (message) {
+      setError(message);
       return;
     }
 

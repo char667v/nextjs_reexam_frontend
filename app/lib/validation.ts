@@ -7,7 +7,8 @@ export function validateName(name: string): string {
 }
 
 export function validateEmail(email: string): string {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim()) ? "" : "Ugyldig email";
+  // Exact same regex as REGEX_EMAIL in the backend's x.py
+  return /^(([^<>()[\]\.,;:\s@"]+(\.[^<>()[\]\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email.trim()) ? "" : "Ugyldig email";
 }
 
 export function validatePhone(phone: string): string {
@@ -16,7 +17,8 @@ export function validatePhone(phone: string): string {
 }
 
 export function validatePassword(password: string): string {
-  return password.length >= 8 && password.length <= 50 ? "" : "Adgangskoden skal være 8–50 tegn";
+  // Exact same regex as REGEX_USER_PASSWORD in the backend's x.py: ^.{8,50}$
+  return /^.{8,50}$/u.test(password) ? "" : "Adgangskoden skal være 8–50 tegn";
 }
 
 export function validatePlate(plate: string): string {
