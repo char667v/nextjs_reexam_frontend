@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { BASE_URL } from "@/app/lib/api";
 
 export type MyInfo = {
-  user_id: string;
+  // user_id: string;
   user_name: string;
   user_email: string;
   user_phone: string | null;

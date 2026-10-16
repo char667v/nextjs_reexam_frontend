@@ -32,7 +32,7 @@ export default function RootLayout({
   return (
     <html lang="da" className={`${inter.variable} ${geistMono.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
-        <QueryProvider>{children}</QueryProvider>
+      <QueryProvider>{children}</QueryProvider>
       </body>
     </html>
   );
