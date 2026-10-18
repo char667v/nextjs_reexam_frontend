@@ -43,7 +43,7 @@ export default function WashDone() {
     <div className="pt-20 pr-14 pl-14 flex flex-col gap-4">
       <AppHeader title="Din vask er færdig!" details={[]} onClose={() => router.push("/pages/dashboard")} />
       <p className="text-body-sm text-foreground -mt-4 mb-8">
-        {session?.locationName} · Program: {session?.tier}
+        {session?.locationName} - Program: {session?.tier}
       </p>
 
       <div className="h-40 flex items-center justify-center">

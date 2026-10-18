@@ -36,31 +36,7 @@ export default function Onboarding() {
     setError("");
     setStep("tiers");
   }
-  // function handleContinue() {
-  //   setError("");
-  //   if (name.trim().length < 2 || name.trim().length > 20) {
-  //     setError("Navn skal være 2–20 tegn.");
-  //     return;
-  //   }
-  //   if (!email.includes("@")) {
-  //     setError("Indtast en gyldig email.");
-  //     return;
-  //   }
-  //   if (phone.trim() && !/^(\+45)?\s?(\d{2}\s?){4}$/.test(phone.trim())) {
-  //     setError("Indtast et gyldigt dansk telefonnummer.");
-  //     return;
-  //   }
-  //   if (password.length < 8 || password.length > 50) {
-  //     setError("Adgangskoden skal være 8–50 tegn.");
-  //     return;
-  //   }
-  //   if (plate.trim().length < 2 || plate.trim().length > 10) {
-  //     setError("Nummerpladen skal være 2–10 tegn.");
-  //     return;
-  //   }
-  //   setStep("tiers");
-  // }
-
+  
   // Step 2: choosing a program shows its details
   function handleSelectTier(selected: string) {
     setTier(selected);

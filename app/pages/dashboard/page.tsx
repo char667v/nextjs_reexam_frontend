@@ -43,11 +43,11 @@ export default function Dashboard() {
   const selected = halls.find((h) => h.hall_id === selectedHallId);
   const filteredHalls = search ? halls.filter((h) => h.name.toLowerCase().includes(search.toLowerCase())) : halls;
 
-  const pinHall = filteredHalls[0];
+  const pinHall = filteredHalls[6];
 
   return (
     <div className="h-screen overflow-hidden relative">
-      <Image src="/png/home/dashboard/map.png" alt="Kort" width={800} height={1600} priority className="absolute inset-0 w-full h-full object-cover" />
+      <Image src="/png/home/dashboard/map_ww.png" alt="Kort" width={600} height={1600} priority className="absolute inset-0 w-full h-full object-cover" />
 
       {pinHall && (
         <button
