@@ -28,12 +28,7 @@ type PillButtonProps = {
   disabled?: boolean;
 };
 
-export default function PillButton({
-  children,
-  variant = "primary",
-  onClick,
-  disabled = false,
-}: PillButtonProps) {
+export default function PillButton({ children, variant = "primary", onClick, disabled = false }: PillButtonProps) {
   const [pressed, setPressed] = useState(false);
   const style = pressed ? variants[variant].pressed : variants[variant].base;
 
@@ -43,11 +38,7 @@ export default function PillButton({
   }
 
   return (
-    <button
-      onClick={handleClick}
-      disabled={disabled}
-      className={`w-full py-3.5 text-body-md font-bold disabled:opacity-50 ${style}`}
-    >
+    <button onClick={handleClick} disabled={disabled} className={`w-full py-3.5 text-body-md font-bold disabled:opacity-50 ${style}`}>
       {children}
     </button>
   );

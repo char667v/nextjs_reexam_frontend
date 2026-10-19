@@ -12,7 +12,7 @@ async function fetchWashHalls(): Promise<WashHall[]> {
   const res = await fetch(`${BASE_URL}/api-wash-halls`);
   // "Hey backend, give me all the wash halls"
   if (!res.ok) throw new Error("Kunne ikke hente vaskehaller");
-  const data = await res.json();
+  const data = await res.json(); // the json resond from app.py line 398 
   return data.wash_halls;
 }
 

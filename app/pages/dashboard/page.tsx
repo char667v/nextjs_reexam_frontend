@@ -11,14 +11,15 @@ import { IoTimeOutline } from "react-icons/io5";
 import { GiVacuumCleaner } from "react-icons/gi";
 import { BiSolidCarWash } from "react-icons/bi";
 import { FaHandsWash } from "react-icons/fa";
+import { FaMapMarker } from "react-icons/fa";
 import { useMyInfo } from "../../hooks/useMyInfo";
 import { useWashHalls } from "../../hooks/useWashHalls";
 import { tierDetails } from "../../lib/tiers";
 
 export default function Dashboard() {
   const router = useRouter();
-  const { data: me } = useMyInfo();   // the logged-in user, including membership_tier from the database
-  const { data: halls = [], isPending, isError } = useWashHalls();   // the wash halls from the database
+  const { data: me } = useMyInfo(); // the logged-in user, including membership_tier from the database
+  const { data: halls = [], isPending, isError } = useWashHalls(); // dashboard page asking for the wash halls data from the database
   const [search, setSearch] = useState("");
   const [selectedHallId, setSelectedHallId] = useState<string | null>(null);
   const [sheetOpen, setSheetOpen] = useState(false);
@@ -43,18 +44,25 @@ export default function Dashboard() {
   const selected = halls.find((h) => h.hall_id === selectedHallId);
   const filteredHalls = search ? halls.filter((h) => h.name.toLowerCase().includes(search.toLowerCase())) : halls;
 
-  const pinHall = filteredHalls[6];
+  // const pinHall = filteredHalls[6];
+  const pinHall = halls.find((h) => h.name === "Wash World Glostrup");
 
   return (
     <div className="h-screen overflow-hidden relative">
       <Image src="/png/home/dashboard/map_ww.png" alt="Kort" width={600} height={1600} priority className="absolute inset-0 w-full h-full object-cover" />
-
+      {/* 
       {pinHall && (
         <button
           onClick={() => handleSelectHall(pinHall.hall_id)}
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-brand border-2 border-white shadow-lg"
           aria-label={`Vælg ${pinHall.name}`}
         />
+      )} */}
+      {pinHall && (
+        <button onClick={() => handleSelectHall(pinHall.hall_id)} className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" aria-label={`Vælg ${pinHall.name}`}>
+          <FaMapMarker size={48} className="text-brand" />
+          <span className="absolute top-1.5 left-0 right-0 text-center text-white font-bold text-l">W</span>
+        </button>
       )}
 
       <div className="absolute top-20 left-4 right-6 ml-8 mr-8">
@@ -66,9 +74,7 @@ export default function Dashboard() {
 
         {search && !isPending && !isError && (
           <ul className="mt-2 rounded-2xl bg-white overflow-hidden">
-            {filteredHalls.length === 0 && (
-              <li className="px-4 py-3 text-body-sm text-[#8a8a86]">Ingen vaskehaller fundet</li>
-            )}
+            {filteredHalls.length === 0 && <li className="px-4 py-3 text-body-sm text-[#8a8a86]">Ingen vaskehaller fundet</li>}
             {filteredHalls.map((h) => (
               <li key={h.hall_id}>
                 <button
