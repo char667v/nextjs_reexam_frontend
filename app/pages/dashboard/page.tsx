@@ -10,8 +10,7 @@ import { useRouter } from "next/navigation";
 import { IoTimeOutline } from "react-icons/io5";
 import { GiVacuumCleaner } from "react-icons/gi";
 import { BiSolidCarWash } from "react-icons/bi";
-import { FaHandsWash } from "react-icons/fa";
-import { FaMapMarker } from "react-icons/fa";
+import { FaHandsWash, FaMapMarker } from "react-icons/fa";
 import { useMyInfo } from "../../hooks/useMyInfo";
 import { useWashHalls } from "../../hooks/useWashHalls";
 import { tierDetails } from "../../lib/tiers";
@@ -50,14 +49,7 @@ export default function Dashboard() {
   return (
     <div className="h-screen overflow-hidden relative">
       <Image src="/png/home/dashboard/map_ww.png" alt="Kort" width={600} height={1600} priority className="absolute inset-0 w-full h-full object-cover" />
-      {/* 
-      {pinHall && (
-        <button
-          onClick={() => handleSelectHall(pinHall.hall_id)}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-brand border-2 border-white shadow-lg"
-          aria-label={`Vælg ${pinHall.name}`}
-        />
-      )} */}
+    
       {pinHall && (
         <button onClick={() => handleSelectHall(pinHall.hall_id)} className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" aria-label={`Vælg ${pinHall.name}`}>
           <FaMapMarker size={48} className="text-brand" />
