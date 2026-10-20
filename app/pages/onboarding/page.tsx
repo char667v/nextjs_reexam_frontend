@@ -24,8 +24,8 @@ export default function Onboarding() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // Step 1: check the details (same rules as the backend's validators in x.py), then show the programs
-    // Step 1: check the details with the shared rules, then show the programs
+  
+  // Screen 1: check the details (same rules as the backend's validators in x.py), then show the programs
   function handleContinue() {
     const message =
       validateName(name) || validateEmail(email) || validatePhone(phone) || validatePassword(password) || validatePlate(plate);
@@ -37,13 +37,14 @@ export default function Onboarding() {
     setStep("tiers");
   }
   
-  // Step 2: choosing a program shows its details
+  // SCREEN 2: choosing a program shows its details
   function handleSelectTier(selected: string) {
     setTier(selected);
     setStep("tierDetail");
   }
 
-  // Step 3: create the user with all details and the chosen program in one request
+  // Opret medlemskab section
+  // Step 3: create the user with all details/chosen program and sendto the backend in one request
   async function handleSignup() {
     setError("");
     setLoading(true);
@@ -64,9 +65,9 @@ export default function Onboarding() {
       const data = await res.json();
       if (!res.ok) {
         setError(data.message || "Kunne ikke oprette bruger"); // e.g. 409 "Email er allerede i brug"
-        return;
+        return; // stop here, stay on the page
       }
-      router.push(`/pages/onboarding/signed-up?tier=${tier}`);
+      router.push(`/pages/onboarding/signed-up?tier=${tier}`); // success → go to the "signed up" page, with the tier in the URL
     } catch {
       setError("System under maintenance");
     } finally {
@@ -74,10 +75,11 @@ export default function Onboarding() {
     }
   }
 
+ // SCREEN 2: show the 3 programs to choose from
   if (step === "tiers") {
     return (
       <div className="pt-20 pr-14 pl-14 flex flex-col gap-4">
-        <AppHeader onClose={() => setStep("details")} />
+        <AppHeader onClose={() => setStep("details")} /> {/* X goes back to the form */}
         <PromoBanner
           src="/jpg/enkeltvask-banner.jpg"
           alt="Enkeltvask - betal kun for den vask, du bruger"
@@ -92,7 +94,7 @@ export default function Onboarding() {
       </div>
     );
   }
-
+ // SCREEN 3: show the chosen program and the signup button
   if (step === "tierDetail") {
     return (
       <div className="pt-20 pr-14 pl-14 flex flex-col gap-4">
@@ -108,6 +110,7 @@ export default function Onboarding() {
     );
   }
 
+  // SCREEN 1 (default): the details form
   return (
     <div className="pt-20 pr-10 pl-14 flex flex-col gap-4">
       <AppHeader title="Opret bruger" subtitle="Et par oplysninger, så er du klar til vask." onClose={() => router.push("/")} />

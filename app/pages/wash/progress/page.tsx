@@ -7,7 +7,7 @@ import { FaMapMarkerAlt, FaTint } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { getWashSession, type WashSession } from "../../../lib/washSession";
 
-const WASH_DURATION_SECONDS = 103; // 01:43
+const WASH_DURATION_SECONDS = 5; // 01:43
 
 export default function WashProgress() {
   const router = useRouter();

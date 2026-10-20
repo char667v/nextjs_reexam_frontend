@@ -7,6 +7,8 @@ import TierDetailCard from "../../../../components/ui/TierDetailCard";
 import PillButton from "../../../../components/ui/PillButton";
 import { tierDetails } from "@/app/lib/tiers";
 import { BASE_URL } from "@/app/lib/api";
+import SwitchMembershipWarning from "@/app/components/ui/SwitchMembershipWarning";
+import { useMyInfo } from "@/app/hooks/useMyInfo";
 
 export default function TierDetailPage() {
   const router = useRouter();
@@ -15,8 +17,11 @@ export default function TierDetailPage() {
   const tier = tierDetails[params.tier as string];
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showWarning, setShowWarning] = useState(false);
+  const { data: me } = useMyInfo();
 
   if (!tier) return null;
+  const isCurrentTier = me?.membership_tier === tier.name;
 
   async function handleConfirm() {
     setError("");
@@ -54,14 +59,26 @@ export default function TierDetailPage() {
 
       <div className="mt-6">
         {error && <p className="text-body-sm text-[#E24B4A]">{error}</p>}
-        <PillButton onClick={handleConfirm} disabled={loading}>
-          {loading ? "Gemmer…" : `Vælg ${tier.name.toLowerCase()} vask`}
+        <PillButton onClick={() => setShowWarning(true)} disabled={loading || isCurrentTier}>
+          {isCurrentTier ? "Dit nuværende medlemskab" : loading ? "Gemmer…" : `Vælg ${tier.name.toLowerCase()} vask`}
         </PillButton>
       </div>
 
       <p className="text-body-xs text-[#8a8a86] mt-4">
         Har din bil brug for lidt ekstra opmærksomhed, tilbyder vi desuden en række effektive tilvalg som insekt- og skumforvask, ekstra højtryksvask og ekstra tørring.
       </p>
+
+      {showWarning && (
+        <SwitchMembershipWarning
+          currentTier={me?.membership_tier ?? ""}
+          newTier={tier.name}
+          onConfirm={() => {
+            setShowWarning(false);
+            handleConfirm();
+          }}
+          onCancel={() => setShowWarning(false)}
+        />
+      )}
     </div>
   );
 }

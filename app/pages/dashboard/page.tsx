@@ -17,7 +17,9 @@ import { tierDetails } from "../../lib/tiers";
 
 export default function Dashboard() {
   const router = useRouter();
-  const { data: me } = useMyInfo(); // the logged-in user, including membership_tier from the database
+  // the logged-in user, including membership_tier from the database
+  const { data: me } = useMyInfo();
+  // dashboard page asking for the wash halls data from the database
   const { data: halls = [], isPending, isError } = useWashHalls(); // dashboard page asking for the wash halls data from the database
   const [search, setSearch] = useState("");
   const [selectedHallId, setSelectedHallId] = useState<string | null>(null);

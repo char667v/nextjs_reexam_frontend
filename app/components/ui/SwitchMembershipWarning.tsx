@@ -17,7 +17,7 @@ export default function SwitchMembershipWarning({
 }: SwitchMembershipWarningProps) {
   return (
     <div className="fixed inset-0 bg-black/80 flex flex-col items-center justify-center px-8 gap-6">
-      <span className="text-9xl text-(--color-danger)">⚠</span>
+      <span className="text-9xl text-danger">⚠</span>
 
       <h2 className="text-h4 text-foreground text-center">Skift enkeltvask medlemskab?</h2>
 
